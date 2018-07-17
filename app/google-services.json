@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "547465086870",
+    "firebase_url": "https://track-209807.firebaseio.com",
+    "project_id": "track-209807",
+    "storage_bucket": "track-209807.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:547465086870:android:40d748604a00a0dc",
+        "android_client_info": {
+          "package_name": "com.voxtrail.gpstracking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "547465086870-3jbn6ujs7kfim24jt07ki7a5adbvlqc3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.voxtrail.gpstracking",
+            "certificate_hash": "d3be9b87d9089054bb7e3f71607e537d0e42ff9f"
+          }
+        },
+        {
+          "client_id": "547465086870-ulojgk8oolvo3qlf94hmtt2u5upcen1d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4Hha5Y84AbDha4A-G6JCqi0Q-jogKIiU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "547465086870-ulojgk8oolvo3qlf94hmtt2u5upcen1d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

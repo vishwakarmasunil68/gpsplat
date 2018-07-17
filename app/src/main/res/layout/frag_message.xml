@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:minHeight="60dp"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:text="Name" />
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GJ 13 D 2750" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#30000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:minHeight="60dp"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:text="Icon" />
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#30000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:minHeight="60dp"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:text="IMEI" />
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="161565165165" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:adjustViewBounds="true"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_drop_right"
+            android:tint="#757575"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#30000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:minHeight="60dp"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:text="SIM Card" />
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9876543210" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:adjustViewBounds="true"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_drop_right"
+            android:tint="#757575"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#30000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:minHeight="60dp"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:text="Vehicle Plate Number" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:adjustViewBounds="true"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_drop_right"
+            android:tint="#757575"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#30000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:minHeight="60dp"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:text="Model" />
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FT300" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#30000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:minHeight="60dp"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:text="Receive Notification" />
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#30000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:minHeight="60dp"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:text="Activation Time" />
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018-04-07" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#30000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:minHeight="60dp"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:text="Expire Date" />
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018-06-02" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#30000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:minHeight="60dp"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:text="Alerts" />
+
+
+        <ImageView
+            android:layout_width="25dp"
+            android:adjustViewBounds="true"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_drop_right"
+            android:tint="#757575"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#30000000" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical"
+        android:minHeight="60dp"
+        android:orientation="horizontal"
+        android:padding="7dp">
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:text="Status" />
+
+        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Static" />
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#30000000" />
+
+
+</LinearLayout>
