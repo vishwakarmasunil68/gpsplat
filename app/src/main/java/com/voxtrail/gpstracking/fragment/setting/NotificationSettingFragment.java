@@ -8,21 +8,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.suke.widget.SwitchButton;
 import com.voxtrail.gpstracking.R;
 import com.voxtrail.gpstracking.fragmentcontroller.FragmentController;
+import com.voxtrail.gpstracking.util.Pref;
+import com.voxtrail.gpstracking.util.StringUtils;
 
 import butterknife.BindView;
 
-public class NotificationSettingFragment extends FragmentController{
+public class NotificationSettingFragment extends FragmentController {
 
     @BindView(R.id.ll_back)
     LinearLayout ll_back;
+    @BindView(R.id.ll_alert)
+    LinearLayout ll_alert;
+    @BindView(R.id.switch_receive_notification)
+    SwitchButton switch_receive_notification;
+    @BindView(R.id.switch_vibration)
+    SwitchButton switch_vibration;
+    @BindView(R.id.switch_all_day)
+    SwitchButton switch_all_day;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.frag_notification_settings,container,false);
-        setUpView(getActivity(),this,view);
+        View view = inflater.inflate(R.layout.frag_notification_settings, container, false);
+        setUpView(getActivity(), this, view);
         return view;
     }
 
@@ -45,7 +56,38 @@ public class NotificationSettingFragment extends FragmentController{
                 onBackPressed();
             }
         });
+        ll_alert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activityManager.startFragment(R.id.frame_home, AlertOptionSettingFragment.newInstance());
+            }
+        });
 
+        switch_receive_notification.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                Pref.SetBooleanPref(getActivity().getApplicationContext(), StringUtils.NOTIFICATION_RECEIVE_NOTIFICATION, isChecked);
+            }
+        });
+
+        switch_vibration.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                Pref.SetBooleanPref(getActivity().getApplicationContext(), StringUtils.NOTIFICATION_VIBRATION, isChecked);
+            }
+        });
+
+        switch_all_day.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                Pref.SetBooleanPref(getActivity().getApplicationContext(), StringUtils.NOTIFICATION_ALL_DAY, isChecked);
+            }
+        });
+
+
+        switch_receive_notification.setChecked(Pref.GetBooleanPref(getActivity().getApplicationContext(), StringUtils.NOTIFICATION_RECEIVE_NOTIFICATION, false));
+        switch_vibration.setChecked(Pref.GetBooleanPref(getActivity().getApplicationContext(), StringUtils.NOTIFICATION_VIBRATION, false));
+        switch_all_day.setChecked(Pref.GetBooleanPref(getActivity().getApplicationContext(), StringUtils.NOTIFICATION_ALL_DAY, false));
 
 
     }

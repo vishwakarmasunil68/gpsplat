@@ -105,6 +105,7 @@
             android:layout_gravity="center_vertical"
             android:background="#FFFFFF"
             android:gravity="center_vertical"
+            android:visibility="gone"
             android:minHeight="60dp"
             android:orientation="horizontal"
             android:padding="7dp">
@@ -294,6 +295,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="#FFFFFF"
+            android:visibility="gone"
             android:gravity="center_vertical"
             android:minHeight="60dp"
             android:orientation="horizontal"
@@ -370,6 +372,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="#FFFFFF"
+            android:visibility="gone"
             android:gravity="center_vertical"
             android:minHeight="60dp"
             android:orientation="horizontal"

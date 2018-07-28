@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 
 /**
@@ -38,13 +39,15 @@ public class WebUploadService extends AsyncTask<String, Void, String> {
     boolean isdialog = true;
     private final String TAG = getClass().getName();
     Object className;
+    Map<String,String> headers;
 
-    public WebUploadService(MultipartEntity reqEntity, Context context, Object className, String msg, boolean isdialog) {
+    public WebUploadService(MultipartEntity reqEntity, Context context,Map<String,String> headers, Object className, String msg, boolean isdialog) {
         this.reqEntity = reqEntity;
         this.msg = msg;
         this.isdialog = isdialog;
         this.context=context;
         this.className=className;
+        this.headers=headers;
         Log.d(TAG, this.toString());
 //        try {
 //            java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream(
@@ -71,7 +74,7 @@ public class WebUploadService extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
         try {
-            jResult = httpCall(params[0], reqEntity);
+            jResult = httpCall(params[0], reqEntity,headers);
             Log.d(TagUtils.getTag(),msg+":-"+jResult);
         } catch (Exception e) {
             if (progressDialog != null) {
@@ -101,11 +104,19 @@ public class WebUploadService extends AsyncTask<String, Void, String> {
     }
 
 
-    public static String httpCall(String url, MultipartEntity reqEntity) {
+    public static String httpCall(String url, MultipartEntity reqEntity, Map<String, String> headers) {
         String result = "";
         try {
             httpClient = new DefaultHttpClient();
             httppost = new HttpPost(url);
+
+            if (headers != null) {
+                for (Map.Entry<String, String> entry : headers.entrySet()) {
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+                    httppost.addHeader(key, value);
+                }
+            }
 
             httppost.setEntity(reqEntity);
 

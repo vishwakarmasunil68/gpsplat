@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">Gps Tracking</string>
     <string name="google_map_api_key">AIzaSyC5t-Sm8Ql6C4In4EDRu8UgeZ7pjuaXies </string>
+
+    <string-array name="vehicle_type">
+        <item>Car</item>
+        <item>Truck</item>
+        <item>Bus</item>
+        <item>Bike</item>
+    </string-array>
+
+    <string-array name="graph_type">
+        <item>Speed</item>
+        <item>Time</item>
+        <item>Mileage</item>
+    </string-array>
+
 </resources>

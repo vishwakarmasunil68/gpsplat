@@ -8,12 +8,15 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.voxtrail.gpstracking.activity.LoginActivity;
+import com.voxtrail.gpstracking.progress.ProgressHUD;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityManager extends AppCompatActivity {
     List<Fragment> fragmentList = new ArrayList<>();
-
+    ProgressHUD mProgressHUD;
     public void startFragment(int id, Fragment fragment) {
         fragmentList.add(fragment);
         getSupportFragmentManager().beginTransaction()
@@ -72,4 +75,19 @@ public class ActivityManager extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    public void showProgressBar(){
+        if(mProgressHUD==null) {
+            mProgressHUD = ProgressHUD.show(this, "", true, true, null);
+        }else{
+            mProgressHUD.show();
+        }
+    }
+
+    public void dismissProgressBar(){
+        if(mProgressHUD!=null){
+            mProgressHUD.dismiss();
+        }
+    }
+
 }

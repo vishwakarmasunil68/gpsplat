@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.voxtrail.gpstracking.R;
 import com.voxtrail.gpstracking.activity.LoginActivity;
+import com.voxtrail.gpstracking.fragment.setting.AddUserFragment;
 import com.voxtrail.gpstracking.fragment.setting.MyProfilefragment;
 import com.voxtrail.gpstracking.fragment.setting.SettingFragment;
 import com.voxtrail.gpstracking.fragmentcontroller.FragmentController;
@@ -30,6 +32,10 @@ public class MeFragment extends FragmentController{
     LinearLayout ll_setting;
     @BindView(R.id.cv_profile)
     CardView cv_profile;
+    @BindView(R.id.ll_user)
+    LinearLayout ll_user;
+    @BindView(R.id.tv_user_name)
+    TextView tv_user_name;
 
     @Nullable
     @Override
@@ -53,10 +59,13 @@ public class MeFragment extends FragmentController{
             @Override
             public void onClick(View view) {
                 Pref.SetBooleanPref(getActivity().getApplicationContext(), StringUtils.IS_LOGIN,false);
+                Pref.SetBooleanPref(getActivity().getApplicationContext(), StringUtils.TOKEN_UPDATED,false);
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finishAffinity();
             }
         });
+
+        tv_user_name.setText(Pref.GetStringPref(getActivity().getApplicationContext(),StringUtils.USERNAME,""));
 
         ll_setting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +78,19 @@ public class MeFragment extends FragmentController{
             @Override
             public void onClick(View view) {
                 activityManager.startFragment(R.id.frame_home, MyProfilefragment.newInstance());
+            }
+        });
+
+        if(Pref.GetStringPref(getActivity().getApplicationContext(),StringUtils.ROLE,"").equalsIgnoreCase("admin")){
+            ll_user.setVisibility(View.VISIBLE);
+        }else{
+            ll_user.setVisibility(View.GONE);
+        }
+
+        ll_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activityManager.startFragment(R.id.frame_home, AddUserFragment.newInstance());
             }
         });
 

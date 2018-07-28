@@ -19,6 +19,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.tt.whorlviewlibrary.WhorlView;
 import com.voxtrail.gpstracking.R;
 import com.voxtrail.gpstracking.adapter.ViewPagerAdapter;
@@ -36,6 +40,7 @@ import com.voxtrail.gpstracking.util.UtilityFunction;
 import com.voxtrail.gpstracking.webservice.WebServicesUrls;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -85,9 +90,36 @@ public class HomeActivity extends ActivityManager {
     WhorlView wheelLoading;
     @BindView(R.id.ll_wheel)
     LinearLayout ll_wheel;
+    @BindView(R.id.graph)
+    GraphView graph;
+    @BindView(R.id.sliding_layout)
+    SlidingUpPanelLayout sliding_layout;
+    @BindView(R.id.tv_vehicle_name)
+    TextView tv_vehicle_name;
+    @BindView(R.id.tv_latitude)
+    TextView tv_latitude;
+    @BindView(R.id.tv_longitude)
+    TextView tv_longitude;
+    @BindView(R.id.tv_speed)
+    TextView tv_speed;
+    @BindView(R.id.tv_mileage)
+    TextView tv_mileage;
+    @BindView(R.id.tv_battery)
+    TextView tv_battery;
+    @BindView(R.id.tv_avg_mileage)
+    TextView tv_avg_mileage;
+    @BindView(R.id.iv_close)
+    ImageView iv_close;
+    @BindView(R.id.tv_address)
+    TextView tv_address;
+    @BindView(R.id.tv_user_name)
+    TextView tv_user_name;
 
     List<TextView> textViewList = new ArrayList<>();
     List<ImageView> imageViewList = new ArrayList<>();
+
+    int[] colors = new int[]{Color.BLUE, Color.GREEN, Color.YELLOW, Color.BLACK, Color.RED, Color.GRAY, Color.MAGENTA, Color.CYAN};
+    String[] hexColors = new String[]{"#0000FF", "#008000", "#FFFF00", "#000000", "#FF0000", "#808080", "#EE00EE", "##00FFFF"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,32 +196,139 @@ public class HomeActivity extends ActivityManager {
         iv_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getVehicleList();
+                sendRawData();
             }
         });
-
+        updateDeviceToken();
 //        getVehicleList();
+//        callAPI();
+
+        showGraph();
+
+
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sliding_layout != null &&
+                        (sliding_layout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || sliding_layout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
+                    sliding_layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                } else {
+                    sliding_layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                }
+
+            }
+        });
+        tv_user_name.setText(Pref.GetStringPref(getApplicationContext(), StringUtils.USERNAME, ""));
+    }
+
+    public void slidingLogic(VehiclePOJO vehiclePOJO, String address) {
+        if (sliding_layout != null &&
+                (sliding_layout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || sliding_layout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
+            sliding_layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        } else {
+            sliding_layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        }
+
+        try {
+            tv_vehicle_name.setText(String.valueOf(vehiclePOJO.getVehicleNumber()) + " Data");
+            tv_latitude.setText(String.valueOf(vehiclePOJO.getLatitude()));
+            tv_longitude.setText(String.valueOf(vehiclePOJO.getLongitude()));
+            tv_speed.setText(String.valueOf(vehiclePOJO.getSpeed() + " km/h"));
+            tv_mileage.setText(String.valueOf(vehiclePOJO.getMileage() + " km/l"));
+            tv_battery.setText(String.valueOf(vehiclePOJO.getBatteryLevel() + " %"));
+            tv_avg_mileage.setText(String.valueOf(vehiclePOJO.getTodaysMileage() + " km/l"));
+            tv_address.setText(address);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showGraph() {
+        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[]{
+                new DataPoint(0, 1),
+                new DataPoint(1, 5),
+                new DataPoint(2, 3),
+                new DataPoint(3, 6),
+                new DataPoint(4, 2)
+        });
+        graph.addSeries(series);
+    }
+
+
+    public void sendRawData() {
+        try {
+            final JSONObject jsonObject = new JSONObject();
+            jsonObject.put("X", 123);
+            jsonObject.put("Y", 123);
+            jsonObject.put("FenceAddress", "acadscd");
+            jsonObject.put("UserID", 123);
+
+            Log.d(TagUtils.getTag(), "json Object:-" + jsonObject.toString());
+
+            RequestQueue queue = Volley.newRequestQueue(this);
+
+            StringRequest getRequest = new StringRequest(Request.Method.POST, WebServicesUrls.RADIUS,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d(TagUtils.getTag(), "response:-" + response.toString());
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d(TagUtils.getTag(), "error:-" + error.toString());
+                            error.printStackTrace();
+                        }
+                    }
+            ) {
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    return jsonObject.toString().getBytes();
+                }
+
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", "bearer -8J_t3yNrZBuIP8NKCLH-VHN8qdSUQxTEyDuYpdWGlJxCTSHLCY63825kOQjeLMMjuFRVV0u9eeCOFZRlGqtdByrCLkVihkeQamxX8SqIIMXBIWgrC4bSv9275ZcsczftIAT8PDnnldTGETdaW1r6W5RQl_bt-peQ2kDsenlbkYXUj24KF6TTCwLTY7cAdyjp_1LA32HDQjMOqfoEMxY6aDkmQ0wktZjntGaNovCr1x7a_kEgLNTJqMnzx1k00PrecM5wSp9Iv3PI6wwAc04lOCS27k15HbeT_MEtFlowC9dMujmSygfwFaOg_B5Zxt0KdprhD6547weIHB8rMWwchTtASFKt1CfG4lEZXPNn2Hfm3dSpjUaMJp4-4zPFMa0Yq_8V-uDk-J-obHVZagM0SwAEiFIVufuowqWdZGThqcStXPe0OFSw9djwhYgR2rf3wNGuexCRcXwatWJHbfrNWXg-a5P7sXD4hyr50c0vF1fAiP9bS9v1ny_EwSSsLZmBdtiaYaFH1kpeohYxn11zQ");
+                    UtilityFunction.printAllValues(headers);
+                    return headers;
+                }
+            };
+            queue.add(getRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public List<VehiclePOJO> vehiclePOJOS = new ArrayList<>();
-    public void showWheelLoading(){
+
+    public void showWheelLoading() {
         ll_wheel.setVisibility(View.VISIBLE);
         wheelLoading.start();
     }
 
-    public void hideWheelLoading(){
+    public void hideWheelLoading() {
         ll_wheel.setVisibility(View.GONE);
         wheelLoading.stop();
     }
+
     public void getVehicleList() {
-        showWheelLoading();
+////        showWheelLoading();
+        showProgressBar();
         RequestQueue queue = Volley.newRequestQueue(this);
 
         StringRequest getRequest = new StringRequest(Request.Method.GET, WebServicesUrls.VEHICLE_LIST,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        hideWheelLoading();
+                        dismissProgressBar();
+//                        hideWheelLoading();
                         Log.d(TagUtils.getTag(), "vehicle list:-" + response.toString());
                         try {
                             JSONArray jsonArray = new JSONArray(response.toString());
@@ -209,7 +348,8 @@ public class HomeActivity extends ActivityManager {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        hideWheelLoading();
+                        dismissProgressBar();
+//                        hideWheelLoading();
                         error.printStackTrace();
                     }
                 }
@@ -223,8 +363,59 @@ public class HomeActivity extends ActivityManager {
             }
         };
         queue.add(getRequest);
+//
 
+//        try{
+//            JSONArray jsonArray=new JSONArray(UtilityFunction.vehicle_list);
+//            vehiclePOJOS.clear();
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//                vehiclePOJOS.add(new Gson().fromJson(jsonArray.optJSONObject(i).toString(), VehiclePOJO.class));
+//            }
+//            if (deviceListFragment != null) {
+//                homeMapFragment.showAllDevices(vehiclePOJOS);
+//                deviceListFragment.attachAdapter(vehiclePOJOS);
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
+    }
+
+    public void updateDeviceToken() {
+
+        if (!Pref.GetBooleanPref(getApplicationContext(), StringUtils.TOKEN_UPDATED, false)) {
+            String url = WebServicesUrls.updateDeviceToken(Pref.GetDeviceToken(getApplicationContext(), ""));
+            Log.d(TagUtils.getTag(), "url:-" + url);
+            RequestQueue queue = Volley.newRequestQueue(this);
+            StringRequest getRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if (response.toString().toLowerCase().contains("success")) {
+                                Pref.SetBooleanPref(getApplicationContext(), StringUtils.TOKEN_UPDATED, true);
+                            } else {
+                                Pref.SetBooleanPref(getApplicationContext(), StringUtils.TOKEN_UPDATED, false);
+                            }
+                            Log.d(TagUtils.getTag(), "response:-" + response.toString());
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    }
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", Pref.GetStringPref(getApplicationContext(), StringUtils.TOKEN_TYPE, "") + " " + Pref.GetStringPref(getApplicationContext(), StringUtils.ACCESS_TOKEN, ""));
+                    UtilityFunction.printAllValues(headers);
+                    return headers;
+                }
+            };
+            queue.add(getRequest);
+        }
     }
 
     DeviceListFragment deviceListFragment;
@@ -234,7 +425,7 @@ public class HomeActivity extends ActivityManager {
 
         homeMapFragment = HomeMapFragment.newInstance();
         deviceListFragment = DeviceListFragment.newInstance();
-        AlertFragment alertFragment = AlertFragment.newInstance();
+        final AlertFragment alertFragment = AlertFragment.newInstance();
         MeFragment homeFragment4 = MeFragment.newInstance();
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -256,6 +447,9 @@ public class HomeActivity extends ActivityManager {
             @Override
             public void onPageSelected(int position) {
                 changePagerIconsandcolor(position);
+                if (position == 2) {
+                    alertFragment.initialize();
+                }
             }
 
             @Override
@@ -299,7 +493,7 @@ public class HomeActivity extends ActivityManager {
                 iv_refresh.setVisibility(View.VISIBLE);
                 break;
             case 1:
-                iv_search.setVisibility(View.VISIBLE);
+//                iv_search.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 iv_setting.setVisibility(View.VISIBLE);
@@ -317,4 +511,41 @@ public class HomeActivity extends ActivityManager {
         iv_alert.setImageResource(R.drawable.ic_alert_unsel);
         iv_me.setImageResource(R.drawable.ic_user_unsel);
     }
+
+    public void getCompleteAddress(final VehiclePOJO vehiclePOJO) {
+        try {
+            showProgressBar();
+            String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + String.valueOf(vehiclePOJO.getLatitude()) + "," + String.valueOf(vehiclePOJO.getLongitude()) + "&sensor=true";
+
+            StringRequest req = new StringRequest(url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            dismissProgressBar();
+                            try {
+                                Log.d(TagUtils.getTag(), "address response:-" + response);
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray jsonArray = jsonObject.optJSONArray("results");
+                                JSONObject jsonObject1 = jsonArray.optJSONObject(0);
+                                String formatted_address = jsonObject1.optString("formatted_address");
+                                slidingLogic(vehiclePOJO, formatted_address);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    dismissProgressBar();
+                    Log.d(TagUtils.getTag(), "api error:-" + error.toString());
+                }
+            });
+            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+            queue.add(req);
+        } catch (Exception e) {
+            dismissProgressBar();
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.voxtrail.gpstracking.fragment.setting;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,6 +15,8 @@ import android.widget.LinearLayout;
 import com.voxtrail.gpstracking.R;
 import com.voxtrail.gpstracking.adapter.LanguageSettingAdapter;
 import com.voxtrail.gpstracking.fragmentcontroller.FragmentController;
+import com.voxtrail.gpstracking.util.Pref;
+import com.voxtrail.gpstracking.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,12 +65,12 @@ public class TrackingRefreshRateFragment extends FragmentController {
 
     public void attachAdapter() {
 
-        deviceStrings.add("Disable auto-refresh");
-        deviceStrings.add("10s");
-        deviceStrings.add("30s");
-        deviceStrings.add("1min");
-        deviceStrings.add("3mins");
-        deviceStrings.add("5mins");
+        deviceStrings.add(StringUtils.REF_DISABLE_AUTO_REFRESH);
+        deviceStrings.add(StringUtils.REF_10_SEC);
+        deviceStrings.add(StringUtils.REF_30_SEC);
+        deviceStrings.add(StringUtils.REF_1_MIN);
+        deviceStrings.add(StringUtils.REF_3_MIN);
+        deviceStrings.add(StringUtils.REF_5_MIN);
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -77,5 +80,14 @@ public class TrackingRefreshRateFragment extends FragmentController {
         rv_language.setAdapter(languageSettingAdapter);
         rv_language.setNestedScrollingEnabled(false);
         rv_language.setItemAnimator(new DefaultItemAnimator());
+
+        languageSettingAdapter.setPreferenceString(StringUtils.TRACKING_REFRESH_RATE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                languageSettingAdapter.setPreCheck(Pref.GetStringPref(getActivity().getApplicationContext(), StringUtils.TRACKING_REFRESH_RATE, ""));
+            }
+        }, 100);
+
     }
 }

@@ -13,7 +13,7 @@ import com.voxtrail.gpstracking.fragmentcontroller.FragmentController;
 
 import butterknife.BindView;
 
-public class SettingFragment extends FragmentController{
+public class SettingFragment extends FragmentController {
 
     @BindView(R.id.ll_back)
     LinearLayout ll_back;
@@ -39,8 +39,8 @@ public class SettingFragment extends FragmentController{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.frag_settings,container,false);
-        setUpView(getActivity(),this,view);
+        View view = inflater.inflate(R.layout.frag_settings, container, false);
+        setUpView(getActivity(), this, view);
         return view;
     }
 
@@ -67,59 +67,56 @@ public class SettingFragment extends FragmentController{
         ll_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityManager.startFragment(R.id.frame_home,new NotificationSettingFragment());
+                activityManager.startFragment(R.id.frame_home, new NotificationSettingFragment());
             }
         });
         ll_time_zone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityManager.startFragment(R.id.frame_home,new TimeZoneFragment());
+                activityManager.startFragment(R.id.frame_home, new TimeZoneFragment());
             }
         });
 
         ll_monitor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityManager.startFragment(R.id.frame_home,new MonitorRefreshRateFragment());
+                activityManager.startFragment(R.id.frame_home, new MonitorRefreshRateFragment());
             }
         });
         ll_distance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityManager.startFragment(R.id.frame_home,new DistanceMetricesFragment());
+                activityManager.startFragment(R.id.frame_home, new DistanceMetricesFragment());
             }
         });
         ll_pressure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityManager.startFragment(R.id.frame_home,new PressureMetricesFragment());
+                activityManager.startFragment(R.id.frame_home, new PressureMetricesFragment());
             }
         });
-
         ll_temperature.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityManager.startFragment(R.id.frame_home,new TemperatureMetricesFragment());
+                activityManager.startFragment(R.id.frame_home, new TemperatureMetricesFragment());
             }
         });
         ll_volume.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityManager.startFragment(R.id.frame_home,new VolumeMetricesFragment());
+                activityManager.startFragment(R.id.frame_home, new VolumeMetricesFragment());
             }
         });
-
         ll_tracking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityManager.startFragment(R.id.frame_home,new TrackingRefreshRateFragment());
+                activityManager.startFragment(R.id.frame_home, new TrackingRefreshRateFragment());
             }
         });
-
         ll_language.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                activityManager.startFragment(R.id.frame_home,new LanguageSettingFragment());
+                activityManager.startFragment(R.id.frame_home, new LanguageSettingFragment());
             }
         });
 

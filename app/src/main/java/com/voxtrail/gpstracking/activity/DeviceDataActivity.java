@@ -3,19 +3,31 @@ package com.voxtrail.gpstracking.activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.voxtrail.gpstracking.R;
 import com.voxtrail.gpstracking.adapter.ViewPagerAdapter;
 import com.voxtrail.gpstracking.fragment.DeviceMapFragment;
 import com.voxtrail.gpstracking.fragment.MessageFragment;
+import com.voxtrail.gpstracking.fragment.NewPlayBackFragment;
 import com.voxtrail.gpstracking.fragment.PlayBackFragment;
 import com.voxtrail.gpstracking.fragment.setting.DeviceSettingFragment;
 import com.voxtrail.gpstracking.fragmentcontroller.ActivityManager;
 import com.voxtrail.gpstracking.pojo.VehiclePOJO;
+import com.voxtrail.gpstracking.util.TagUtils;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +69,26 @@ public class DeviceDataActivity extends ActivityManager {
     ImageView iv_select;
     @BindView(R.id.tv_edit)
     TextView tv_edit;
+    @BindView(R.id.sliding_layout)
+    SlidingUpPanelLayout sliding_layout;
+    @BindView(R.id.tv_latitude)
+    TextView tv_latitude;
+    @BindView(R.id.tv_longitude)
+    TextView tv_longitude;
+    @BindView(R.id.tv_speed)
+    TextView tv_speed;
+    @BindView(R.id.tv_mileage)
+    TextView tv_mileage;
+    @BindView(R.id.tv_battery)
+    TextView tv_battery;
+    @BindView(R.id.tv_avg_mileage)
+    TextView tv_avg_mileage;
+    @BindView(R.id.tv_vehicle_name)
+    public TextView tv_vehicle_name;
+    @BindView(R.id.iv_close)
+    public ImageView iv_close;
+    @BindView(R.id.tv_address)
+    TextView tv_address;
 
     public VehiclePOJO vehiclePOJO;
 
@@ -122,13 +154,26 @@ public class DeviceDataActivity extends ActivityManager {
             }
         });
 
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (sliding_layout != null &&
+                        (sliding_layout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || sliding_layout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
+                    sliding_layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                } else {
+                    sliding_layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                }
+
+            }
+        });
+
     }
 
-    PlayBackFragment playBackFragment;
+    NewPlayBackFragment playBackFragment;
     private void setupViewPager(ViewPager viewPager) {
 
         DeviceMapFragment homeFragment1 = DeviceMapFragment.newInstance();
-        playBackFragment = PlayBackFragment.newInstance();
+        playBackFragment = NewPlayBackFragment.newInstance();
         MessageFragment messageFragment = MessageFragment.newInstance();
         DeviceSettingFragment homeFragment4 = DeviceSettingFragment.newInstance();
 
@@ -184,8 +229,8 @@ public class DeviceDataActivity extends ActivityManager {
                 iv_select.setVisibility(View.VISIBLE);
                 break;
             case 2:
-                iv_message.setImageResource(R.drawable.ic_message_sel);
-                tv_edit.setVisibility(View.VISIBLE);
+                iv_message.setImageResource(R.drawable.ic_info_sel);
+//                tv_edit.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 iv_setting.setImageResource(R.drawable.ic_setting_sel);
@@ -203,9 +248,66 @@ public class DeviceDataActivity extends ActivityManager {
     public void setDefaultImages() {
         iv_track.setImageResource(R.drawable.ic_track_unsel);
         iv_playback.setImageResource(R.drawable.ic_play_unsel);
-        iv_message.setImageResource(R.drawable.ic_message_unsel);
+        iv_message.setImageResource(R.drawable.ic_info);
         iv_setting.setImageResource(R.drawable.ic_setting_black);
     }
 
+    public void slidingLogic(VehiclePOJO vehiclePOJO,String address) {
+        if (sliding_layout != null &&
+                (sliding_layout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || sliding_layout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
+            sliding_layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+        } else {
+            sliding_layout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        }
+
+        try{
+            tv_latitude.setText(String.valueOf(vehiclePOJO.getLatitude()));
+            tv_longitude.setText(String.valueOf(vehiclePOJO.getLongitude()));
+            tv_speed.setText(String.valueOf(vehiclePOJO.getSpeed()+ " km/h"));
+            tv_mileage.setText(String.valueOf(vehiclePOJO.getMileage()+ " km/l"));
+            tv_battery.setText(String.valueOf(vehiclePOJO.getBatteryLevel()+ " %"));
+            tv_avg_mileage.setText(String.valueOf(vehiclePOJO.getTodaysMileage()+ " km/l"));
+            tv_address.setText(address);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    public void getCompleteAddress(final VehiclePOJO vehiclePOJO) {
+        try {
+            showProgressBar();
+            String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + String.valueOf(vehiclePOJO.getLatitude()) + "," + String.valueOf(vehiclePOJO.getLongitude()) + "&sensor=true";
+
+            StringRequest req = new StringRequest(url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            dismissProgressBar();
+                            try {
+                                Log.d(TagUtils.getTag(), "address response:-" + response);
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray jsonArray = jsonObject.optJSONArray("results");
+                                JSONObject jsonObject1 = jsonArray.optJSONObject(0);
+                                String formatted_address = jsonObject1.optString("formatted_address");
+                                slidingLogic(vehiclePOJO,formatted_address);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    dismissProgressBar();
+                    Log.d(TagUtils.getTag(), "api error:-" + error.toString());
+                }
+            });
+            RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+            queue.add(req);
+        }catch (Exception e){
+            dismissProgressBar();
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -56,6 +56,8 @@ import com.voxtrail.gpstracking.R;
 import com.voxtrail.gpstracking.activity.DeviceDataActivity;
 import com.voxtrail.gpstracking.fragmentcontroller.FragmentController;
 import com.voxtrail.gpstracking.pojo.VehicleHistoryPOJO;
+import com.voxtrail.gpstracking.pojo.gm.SnappedPointsList;
+import com.voxtrail.gpstracking.pojo.gm.SnappedPointsPOJO;
 import com.voxtrail.gpstracking.util.Constants;
 import com.voxtrail.gpstracking.util.Pref;
 import com.voxtrail.gpstracking.util.StringUtils;
@@ -67,6 +69,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -100,7 +103,7 @@ public class PlayBackFragment extends FragmentController implements OnMapReadyCa
     @BindView(R.id.iv_play)
     ImageView iv_play;
 
-    private static final int PLAYBACK_MILLIS=3000;
+    private static final int PLAYBACK_MILLIS = 3000;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -267,7 +270,11 @@ public class PlayBackFragment extends FragmentController implements OnMapReadyCa
 //                    startdatetime=UtilityFunction.converttoserverDateTime(startdatetime);
 //                    enddatetime=UtilityFunction.converttoserverDateTime(enddatetime);
 //                }
-                callAPI(startdatetime, enddatetime);
+//                callAPI(startdatetime, enddatetime);
+//                parseRoute(UtilityFunction.getJSONString(getActivity().getApplicationContext()));
+                preDrawRoute(UtilityFunction.getJSONString(getActivity().getApplicationContext()));
+
+//                drawRoute(UtilityFunction.getJSONString(getActivity().getApplicationContext()));
                 dialog1.dismiss();
             }
         });
@@ -279,6 +286,24 @@ public class PlayBackFragment extends FragmentController implements OnMapReadyCa
             }
         });
 
+    }
+
+
+    public void parseRoute(String route) {
+        try {
+            JSONArray jsonArray = new JSONArray(route);
+            String latLng = "";
+            for (int i = 0; i < jsonArray.length(); i++) {
+                if (i < 100) {
+                    JSONObject jsonObject = jsonArray.optJSONObject(i);
+                    latLng += jsonObject.optString("Lat") + "," + jsonObject.optString("Lng") + "|";
+                }
+            }
+            UtilityFunction.writeToFile(latLng, getActivity().getApplicationContext());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void getTodayRange() {
@@ -324,7 +349,7 @@ public class PlayBackFragment extends FragmentController implements OnMapReadyCa
                             public void onResponse(String response) {
                                 Log.d(TagUtils.getTag(), "vehicle list:-" + response.toString());
                                 try {
-                                    drawRoute(response.toString());
+//                                    drawRoute(response.toString());
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -353,23 +378,100 @@ public class PlayBackFragment extends FragmentController implements OnMapReadyCa
         }
     }
 
+    public void getSnappedPoints(final List<VehicleHistoryPOJO> vehicleHistoryPOJOS) {
+        String urlQuery = "";
+        for (int i = 0; i < vehicleHistoryPOJOS.size(); i++) {
+            if (i == (vehicleHistoryPOJOS.size() - 1)) {
+                urlQuery += vehicleHistoryPOJOS.get(i).getLat() + "," + vehicleHistoryPOJOS.get(i).getLng();
+            } else {
+                urlQuery += vehicleHistoryPOJOS.get(i).getLat() + "," + vehicleHistoryPOJOS.get(i).getLng() + "|";
+            }
+        }
+
+        String url = "https://roads.googleapis.com/v1/snapToRoads?path=" + urlQuery + "&interpolate=true&key=AIzaSyC5t-Sm8Ql6C4In4EDRu8UgeZ7pjuaXies ";
+        Log.d(TagUtils.getTag(),"url:-"+url);
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
+
+        StringRequest getRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TagUtils.getTag(), "google response:-" + response.toString());
+
+                        try {
+                            SnappedPointsList snappedPointsList = new Gson().fromJson(response, SnappedPointsList.class);
+                            String last_speed = "";
+                            String last_mileage = "";
+                            String last_date = "";
+                            for (SnappedPointsPOJO snappedPointsPOJO : snappedPointsList.getSnappedPointsPOJOS()) {
+                                if (snappedPointsPOJO.getOriginalIndex() != null) {
+                                    snappedPointsPOJO.setDate(vehicleHistoryPOJOS.get(snappedPointsPOJO.getOriginalIndex()).getTime());
+                                    last_date = vehicleHistoryPOJOS.get(snappedPointsPOJO.getOriginalIndex()).getTime();
+                                    snappedPointsPOJO.setSpeed(String.valueOf(vehicleHistoryPOJOS.get(snappedPointsPOJO.getOriginalIndex()).getSpeed()));
+                                    last_speed = String.valueOf(vehicleHistoryPOJOS.get(snappedPointsPOJO.getOriginalIndex()).getSpeed());
+                                    snappedPointsPOJO.setMileage(String.valueOf(vehicleHistoryPOJOS.get(snappedPointsPOJO.getOriginalIndex()).getTotalMileage()));
+                                    last_mileage = String.valueOf(vehicleHistoryPOJOS.get(snappedPointsPOJO.getOriginalIndex()).getTotalMileage());
+                                }else{
+                                    snappedPointsPOJO.setDate(last_date);
+                                    snappedPointsPOJO.setSpeed(last_speed);
+                                    snappedPointsPOJO.setMileage(last_mileage);
+                                }
+                            }
+
+                            drawRoute(snappedPointsList.getSnappedPointsPOJOS());
+//                            for(SnappedPointsPOJO snappedPointsPOJO:snappedPointsList.getSnappedPointsPOJOS()){
+//                                Log.d(TagUtils.getTag(),"latitude:-"+snappedPointsPOJO.getLocationPOJO().getLatitude()+" , longitude:-"+snappedPointsPOJO.getLocationPOJO().getLongitude());
+//                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TagUtils.getTag(), "error:-" + error.toString());
+                        error.printStackTrace();
+                    }
+                }
+        );
+        queue.add(getRequest);
+    }
+
     private List<LatLng> polyLineList;
 
-    public void drawRoute(String response) {
+    public void preDrawRoute(String response) {
+        try {
+            JSONArray jsonArray = new JSONArray(response.toString());
+            final List<VehicleHistoryPOJO> vehicleHistoryPOJOS = new ArrayList<>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                vehicleHistoryPOJOS.add(new Gson().fromJson(jsonArray.optJSONObject(i).toString(), VehicleHistoryPOJO.class));
+            }
+
+            if (vehicleHistoryPOJOS.size() > 100) {
+                getSnappedPoints(vehicleHistoryPOJOS.subList(0, 99));
+            } else {
+                getSnappedPoints(vehicleHistoryPOJOS);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void drawRoute(final List<SnappedPointsPOJO> snappedPointsPOJOS) {
         try {
             googleMap.clear();
             is_looping = true;
             handler = null;
             runnable = null;
             iv_play.setImageResource(R.drawable.ic_pause);
-            JSONArray jsonArray = new JSONArray(response.toString());
-            final List<VehicleHistoryPOJO> vehicleHistoryPOJOS = new ArrayList<>();
-            for (int i = 0; i < jsonArray.length(); i++) {
-                vehicleHistoryPOJOS.add(new Gson().fromJson(jsonArray.optJSONObject(i).toString(), VehicleHistoryPOJO.class));
-            }
+
             List<LatLng> latLngs = new ArrayList<>();
-            for (VehicleHistoryPOJO vehicleHistoryPOJO : vehicleHistoryPOJOS) {
-                latLngs.add(new LatLng(vehicleHistoryPOJO.getLat(), vehicleHistoryPOJO.getLng()));
+//            for (VehicleHistoryPOJO vehicleHistoryPOJO : vehicleHistoryPOJOS) {
+//                latLngs.add(new LatLng(vehicleHistoryPOJO.getLat(), vehicleHistoryPOJO.getLng()));
+//            }
+            for (SnappedPointsPOJO snappedPointsPOJO : snappedPointsPOJOS) {
+                latLngs.add(new LatLng(snappedPointsPOJO.getLocationPOJO().getLatitude(), snappedPointsPOJO.getLocationPOJO().getLongitude()));
             }
 
             polyLineList = latLngs;
@@ -475,9 +577,9 @@ public class PlayBackFragment extends FragmentController implements OnMapReadyCa
                                 TextView tv_time = view.findViewById(R.id.tv_time);
                                 TextView tv_mileage = view.findViewById(R.id.tv_mileage);
 
-                                tv_time.setText(String.valueOf(vehicleHistoryPOJOS.get(index).getTime()));
-                                tv_speed.setText(String.valueOf(vehicleHistoryPOJOS.get(index).getSpeed()));
-                                tv_mileage.setText(String.valueOf(vehicleHistoryPOJOS.get(index).getTotalMileage()));
+                                tv_time.setText(String.valueOf(snappedPointsPOJOS.get(index).getDate()));
+                                tv_speed.setText(String.valueOf(snappedPointsPOJOS.get(index).getSpeed()));
+                                tv_mileage.setText(String.valueOf(snappedPointsPOJOS.get(index).getMileage()));
 
 //                                                text.setText(String.valueOf(lat)+" "+String.valueOf(lng));
 //                                                text.setTextColor(Color.parseColor("#FFFFFF"));
@@ -499,7 +601,7 @@ public class PlayBackFragment extends FragmentController implements OnMapReadyCa
                                         .newCameraPosition
                                                 (new CameraPosition.Builder()
                                                         .target(newPos)
-                                                        .zoom(20f)
+                                                        .zoom(17f)
                                                         .build()));
                             }
                         });

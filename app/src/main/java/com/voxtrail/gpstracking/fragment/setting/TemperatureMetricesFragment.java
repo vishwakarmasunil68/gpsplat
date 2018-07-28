@@ -1,6 +1,7 @@
 package com.voxtrail.gpstracking.fragment.setting;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,6 +15,8 @@ import android.widget.LinearLayout;
 import com.voxtrail.gpstracking.R;
 import com.voxtrail.gpstracking.adapter.LanguageSettingAdapter;
 import com.voxtrail.gpstracking.fragmentcontroller.FragmentController;
+import com.voxtrail.gpstracking.util.Pref;
+import com.voxtrail.gpstracking.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +65,8 @@ public class TemperatureMetricesFragment extends FragmentController {
 
     public void attachAdapter() {
 
-        deviceStrings.add("Celcius (C)");
-        deviceStrings.add("Fahrenheit (F)");
+        deviceStrings.add(StringUtils.CELCIUS);
+        deviceStrings.add(StringUtils.FAHENHEIT);
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -73,5 +76,13 @@ public class TemperatureMetricesFragment extends FragmentController {
         rv_language.setAdapter(languageSettingAdapter);
         rv_language.setNestedScrollingEnabled(false);
         rv_language.setItemAnimator(new DefaultItemAnimator());
+
+        languageSettingAdapter.setPreferenceString(StringUtils.TEMPERATURE_METRICES);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                languageSettingAdapter.setPreCheck(Pref.GetStringPref(getActivity().getApplicationContext(), StringUtils.TEMPERATURE_METRICES, ""));
+            }
+        }, 100);
     }
 }

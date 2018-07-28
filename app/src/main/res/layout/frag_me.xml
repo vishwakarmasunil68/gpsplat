@@ -35,6 +35,7 @@
                 android:orientation="vertical">
 
                 <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                    android:id="@+id/tv_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="User Name"
@@ -43,7 +44,8 @@
                 <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Account: Username" />
+                    android:text="Account: Username"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 
@@ -65,6 +67,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -84,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="Supplier" />
+                android:text="User" />
 
             <ImageView
                 android:layout_width="25dp"

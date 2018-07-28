@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.voxtrail.gpstracking.R;
+import com.voxtrail.gpstracking.listeners.ItemClickListener;
+import com.voxtrail.gpstracking.util.Pref;
 
 import net.igenius.customcheckbox.CustomCheckBox;
 
@@ -26,13 +28,17 @@ public class LanguageSettingAdapter extends RecyclerView.Adapter<LanguageSetting
     private List<String> items;
     Activity activity;
     Fragment fragment;
-
+    String pref_type = "";
     List<CustomCheckBox> customCheckBoxes = new ArrayList<>();
 
     public LanguageSettingAdapter(Activity activity, Fragment fragment, List<String> items) {
         this.items = items;
         this.activity = activity;
         this.fragment = fragment;
+    }
+
+    public void setPreferenceString(String pref_type) {
+        this.pref_type = pref_type;
     }
 
     @Override
@@ -50,6 +56,8 @@ public class LanguageSettingAdapter extends RecyclerView.Adapter<LanguageSetting
 
         holder.tv_language.setText(items.get(position));
 
+        holder.check.setTag(String.valueOf(items.get(position)));
+
         holder.check.setOnCheckedChangeListener(new CustomCheckBox.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CustomCheckBox checkBox, boolean isChecked) {
@@ -59,18 +67,26 @@ public class LanguageSettingAdapter extends RecyclerView.Adapter<LanguageSetting
                             customCheckBox.setChecked(false);
                         }
                     }
-//                    holder.check.setChecked(true);
+                }
+                Pref.SetStringPref(activity.getApplicationContext(), pref_type, "");
+                if (isChecked) {
+                    Pref.SetStringPref(activity.getApplicationContext(), pref_type, items.get(position));
                 }
             }
         });
-//        holder.check.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                holder.check.setChecked(true);
-//            }
-//        });
+
 
         holder.itemView.setTag(items.get(position));
+    }
+
+    public void setPreCheck(String checked) {
+        if (checked.length() > 0) {
+            for (CustomCheckBox customCheckBox : customCheckBoxes) {
+                if (customCheckBox.getTag().toString().equals(checked)) {
+                    customCheckBox.setChecked(true);
+                }
+            }
+        }
     }
 
     @Override

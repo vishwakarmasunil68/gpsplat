@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
  * Created by sunil on 03-11-2017.
  */
 
-public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.ViewHolder>{
+public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.ViewHolder> {
     private List<VehiclePOJO> items;
     Activity activity;
     Fragment fragment;
@@ -47,12 +47,27 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
         holder.ll_device.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(activity, DeviceDataActivity.class);
-                intent.putExtra("vehiclePOJO",items.get(position));
+                Intent intent = new Intent(activity, DeviceDataActivity.class);
+                intent.putExtra("vehiclePOJO", items.get(position));
                 activity.startActivity(intent);
             }
         });
         holder.tv_vehicle_name.setText(items.get(position).getVehicleNumber());
+
+        switch (items.get(position).getVehicleType().toLowerCase()) {
+            case "car":
+                holder.iv_vehicle.setImageResource(R.drawable.ic_car);
+                break;
+            case "bike":
+                holder.iv_vehicle.setImageResource(R.drawable.ic_bike);
+                break;
+            case "truck":
+                holder.iv_vehicle.setImageResource(R.drawable.ic_truck);
+                break;
+            default:
+                break;
+        }
+
         holder.tv_type.setText(items.get(position).getVehicleType());
 
         holder.itemView.setTag(items.get(position));
@@ -71,9 +86,12 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
         TextView tv_vehicle_name;
         @BindView(R.id.tv_type)
         TextView tv_type;
+        @BindView(R.id.iv_vehicle)
+        ImageView iv_vehicle;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

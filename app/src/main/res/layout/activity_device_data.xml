@@ -1,182 +1,476 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.DeviceDataActivity">
+    tools:context=".activity.HomeActivity">
 
-    <android.support.v7.widget.Toolbar
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:gravity="bottom"
+        android:visibility="visible"
+        sothree:umanoPanelHeight="0dp"
+        sothree:umanoShadowHeight="4dp">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_gravity="left|center"
-                android:layout_marginLeft="7dp"
-                android:src="@drawable/ic_back_black" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="Vehicle Name"
-                android:textColor="#FFFFFF"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                <android.support.v7.widget.Toolbar
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/colorPrimary"
+                    android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_select"
-                android:layout_width="25dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center"
-                android:layout_marginRight="15dp"
-                android:adjustViewBounds="true"
-                android:gravity="right|center"
-                android:src="@drawable/ic_select_time"
-                android:visibility="gone" />
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
-                android:id="@+id/tv_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|center"
-                android:layout_marginRight="15dp"
-                android:gravity="right|center"
-                android:text="edit"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                        <ImageView
+                            android:id="@+id/iv_back"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="left|center"
+                            android:layout_marginLeft="7dp"
+                            android:src="@drawable/ic_back_black" />
 
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:id="@+id/tv_vehicle_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="Vehicle Name"
+                            android:textColor="#FFFFFF"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/iv_select"
+                            android:layout_width="25dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right|center"
+                            android:layout_marginRight="15dp"
+                            android:adjustViewBounds="true"
+                            android:gravity="right|center"
+                            android:src="@drawable/ic_select_time"
+                            android:visibility="gone" />
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:id="@+id/tv_edit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right|center"
+                            android:layout_marginRight="15dp"
+                            android:gravity="right|center"
+                            android:text="edit"
+                            android:textColor="#FFFFFF"
+                            android:textStyle="bold"
+                            android:visibility="gone" />
+
+                    </FrameLayout>
+                </android.support.v7.widget.Toolbar>
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"></android.support.v4.view.ViewPager>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="4">
+
+                    <LinearLayout
+                        android:id="@+id/ll_track"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_track"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="5dp"
+                            android:src="@drawable/ic_track_unsel" />
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:id="@+id/tv_track"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Track"
+                            android:textColor="#757575" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_playback"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_playback"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="5dp"
+                            android:src="@drawable/ic_play_unsel" />
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:id="@+id/tv_playback"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Playback"
+                            android:textColor="#757575" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_message"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_message"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="5dp"
+                            android:src="@drawable/ic_info" />
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:id="@+id/tv_message"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Info"
+                            android:textColor="#757575" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_setting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iv_setting"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginTop="5dp"
+                            android:src="@drawable/ic_setting_black" />
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:id="@+id/tv_setting"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:text="Settings"
+                            android:textColor="#757575" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
         </FrameLayout>
-    </android.support.v7.widget.Toolbar>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"></android.support.v4.view.ViewPager>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="4">
-
-        <LinearLayout
-            android:id="@+id/ll_track"
-            android:layout_width="0dp"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:background="@android:color/transparent">
 
-            <ImageView
-                android:id="@+id/iv_track"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/ic_track_unsel" />
-
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
-                android:id="@+id/tv_track"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Track"
-                android:textColor="#757575" />
+                android:layout_gravity="bottom"
+                android:background="#FFFFFF"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="50dp">
 
-        <LinearLayout
-            android:id="@+id/ll_playback"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+                    <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Vehicle Data"
+                        android:textColor="#000000"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/iv_playback"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/ic_play_unsel" />
+                    <ImageView
+                        android:id="@+id/iv_close"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="right|center"
+                        android:layout_marginRight="15dp"
+                        android:src="@drawable/ic_close" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
-                android:id="@+id/tv_playback"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Playback"
-                android:textColor="#757575" />
+                </FrameLayout>
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_message"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#30000000" />
 
-            <ImageView
-                android:id="@+id/iv_message"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/ic_message_unsel" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
-                android:id="@+id/tv_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Message"
-                android:textColor="#757575" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-        </LinearLayout>
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:id="@+id/tv_latitude"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="28.615615"
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
 
-        <LinearLayout
-            android:id="@+id/ll_setting"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:text="Latitude" />
 
-            <ImageView
-                android:id="@+id/iv_setting"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/ic_setting_black" />
+                    </LinearLayout>
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
-                android:id="@+id/tv_setting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Settings"
-                android:textColor="#757575" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-        </LinearLayout>
-    </LinearLayout>
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:id="@+id/tv_longitude"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="28.615615"
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:text="Longitude" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:id="@+id/tv_speed"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="50 Km/h"
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:text="Speed" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:id="@+id/tv_mileage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="50 km/l"
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:text="Mileage" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:id="@+id/tv_battery"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="50 %"
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:text="Battery" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:id="@+id/tv_avg_mileage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="30 km/l"
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
+
+                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="7dp"
+                            android:text="Avg. Mileage" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="10dp"
+                    android:background="#30000000" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:minHeight="40dp"
+                    android:orientation="vertical">
+
+                    <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        android:id="@+id/tv_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="7dp"
+                        android:text="Address" />
+
+                </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginTop="10dp"
+                    android:background="#30000000" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <com.jjoe64.graphview.GraphView
+                        android:id="@+id/graph"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:layout_gravity="right"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/spinner_graph"
+                        android:padding="5dp">
+
+                        <Spinner
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:entries="@array/graph_type"></Spinner>
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
 </LinearLayout>

@@ -130,6 +130,7 @@
             android:background="#FFFFFF"
             android:gravity="center_vertical"
             android:minHeight="60dp"
+            android:visibility="gone"
             android:orientation="horizontal"
             android:padding="7dp">
 
@@ -151,6 +152,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:visibility="gone"
             android:background="#30000000"/>
 
         <LinearLayout
@@ -158,6 +160,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="#FFFFFF"
+            android:visibility="gone"
             android:gravity="center_vertical"
             android:minHeight="60dp"
             android:orientation="horizontal"
@@ -181,6 +184,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:visibility="gone"
             android:background="#30000000"/>
 
         <LinearLayout
@@ -189,6 +193,7 @@
             android:layout_gravity="center_vertical"
             android:background="#FFFFFF"
             android:gravity="center_vertical"
+            android:visibility="gone"
             android:minHeight="60dp"
             android:orientation="horizontal"
             android:padding="7dp">
@@ -211,6 +216,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:visibility="gone"
             android:background="#30000000"/>
 
     </LinearLayout>

@@ -11,6 +11,7 @@ import com.voxtrail.gpstracking.R;
 import com.voxtrail.gpstracking.util.Pref;
 import com.voxtrail.gpstracking.util.StringUtils;
 import com.voxtrail.gpstracking.util.ToastClass;
+import com.voxtrail.gpstracking.util.UtilityFunction;
 import com.voxtrail.gpstracking.webservice.WebServiceBase;
 import com.voxtrail.gpstracking.webservice.WebServicesCallBack;
 import com.voxtrail.gpstracking.webservice.WebServicesUrls;
@@ -58,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("username", et_user_name.getText().toString()));
         nameValuePairs.add(new BasicNameValuePair("password", et_password.getText().toString()));
+//        nameValuePairs.add(new BasicNameValuePair("device_token", Pref.GetDeviceToken(getApplicationContext(),"")));
         nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
         new WebServiceBase(nameValuePairs,null, this, new WebServicesCallBack() {
             @Override
@@ -75,6 +77,8 @@ public class LoginActivity extends AppCompatActivity {
                     Pref.SetStringPref(getApplicationContext(), StringUtils.ROLE,Role);
 
                     Pref.SetBooleanPref(getApplicationContext(),StringUtils.IS_LOGIN,true);
+
+                    UtilityFunction.setPreValuesChecked(getApplicationContext());
 
                     startActivity(new Intent(LoginActivity.this,HomeActivity.class));
 
