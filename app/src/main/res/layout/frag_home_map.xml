@@ -13,7 +13,16 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.voxtrail.gpstracking.MapsMarkerActivity" />
+        tools:context="com.voxgps.app.MapsMarkerActivity" />
+
+    <TextView
+        android:id="@+id/tv_refresh_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@drawable/ll_timer_back"
+        android:padding="5dp"
+        android:text="Refresh in 10 s" />
 
     <LinearLayout
         android:id="@+id/ll_prev"

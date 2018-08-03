@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:547465086870:android:40d748604a00a0dc",
+        "mobilesdk_app_id": "1:547465086870:android:995dc3956ab7c3d1",
         "android_client_info": {
-          "package_name": "com.voxtrail.gpstracking"
+          "package_name": "com.voxgps.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "547465086870-3jbn6ujs7kfim24jt07ki7a5adbvlqc3.apps.googleusercontent.com",
+          "client_id": "547465086870-j7epjc3qkld9ga1e1aefa28e780vrdl3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.voxtrail.gpstracking",
+            "package_name": "com.voxgps.app",
             "certificate_hash": "d3be9b87d9089054bb7e3f71607e537d0e42ff9f"
           }
         },

@@ -1,9 +1,9 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'io.fabric'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.voxtrail.gpstracking"
+        applicationId "com.voxgps.app"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
@@ -52,5 +52,8 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.4.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     compile 'com.jjoe64:graphview:4.2.1'
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
+        transitive = true;
+    }
 }
 apply plugin: 'com.google.gms.google-services'

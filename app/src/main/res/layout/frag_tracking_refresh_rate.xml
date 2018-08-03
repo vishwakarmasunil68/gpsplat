@@ -33,7 +33,7 @@
 
             </LinearLayout>
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -43,7 +43,7 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:id="@+id/tv_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

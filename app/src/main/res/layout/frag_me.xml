@@ -34,14 +34,14 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                <com.voxgps.app.view.ProximaNovaLightTextView
                     android:id="@+id/tv_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="User Name"
                     android:textColor="#000000" />
 
-                <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                <com.voxgps.app.view.ProximaNovaLightTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Account: Username"
@@ -82,7 +82,7 @@
                 android:layout_height="35dp"
                 android:src="@drawable/ic_supplier" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -117,7 +117,7 @@
                 android:layout_height="35dp"
                 android:src="@drawable/ic_password" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -157,7 +157,7 @@
                 android:src="@drawable/ic_setting"
                 android:tint="#757575" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

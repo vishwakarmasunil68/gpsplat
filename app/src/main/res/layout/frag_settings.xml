@@ -33,7 +33,7 @@
 
             </LinearLayout>
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -43,7 +43,7 @@
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:id="@+id/tv_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_notification" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -117,7 +117,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_language" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -155,7 +155,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_time_zone" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -193,7 +193,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_monitor_refresh_rate" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -231,7 +231,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_tracking_refresh_rate" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -269,7 +269,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_distance_metrices" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -308,7 +308,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_pressure_rate" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -346,7 +346,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_temperature_metrices" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -385,7 +385,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_volume_metrices" />
 
-            <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+            <com.voxgps.app.view.ProximaNovaLightTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

@@ -14,19 +14,18 @@
         android:orientation="horizontal"
         android:padding="7dp">
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_weight="1"
             android:text="Name" />
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:id="@+id/tv_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="GJ 13 D 2750" />
-
 
     </LinearLayout>
 
@@ -45,14 +44,14 @@
         android:orientation="horizontal"
         android:padding="7dp">
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_weight="1"
             android:text="Icon" />
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="" />
@@ -75,14 +74,14 @@
         android:orientation="horizontal"
         android:padding="7dp">
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_weight="1"
             android:text="IMEI" />
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:id="@+id/tv_imei"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -90,10 +89,10 @@
 
         <ImageView
             android:layout_width="25dp"
-            android:adjustViewBounds="true"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:src="@drawable/ic_drop_right"
-            android:tint="#757575"/>
+            android:tint="#757575" />
 
     </LinearLayout>
 
@@ -112,14 +111,14 @@
         android:orientation="horizontal"
         android:padding="7dp">
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_weight="1"
             android:text="SIM Card" />
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:id="@+id/tv_sim_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -127,10 +126,10 @@
 
         <ImageView
             android:layout_width="25dp"
-            android:adjustViewBounds="true"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:src="@drawable/ic_drop_right"
-            android:tint="#757575"/>
+            android:tint="#757575" />
 
     </LinearLayout>
 
@@ -149,7 +148,7 @@
         android:orientation="horizontal"
         android:padding="7dp">
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
@@ -158,10 +157,10 @@
 
         <ImageView
             android:layout_width="25dp"
-            android:adjustViewBounds="true"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:src="@drawable/ic_drop_right"
-            android:tint="#757575"/>
+            android:tint="#757575" />
 
     </LinearLayout>
 
@@ -180,14 +179,14 @@
         android:orientation="horizontal"
         android:padding="7dp">
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_weight="1"
             android:text="Model" />
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:id="@+id/tv_model"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -209,16 +208,17 @@
         android:gravity="center_vertical"
         android:minHeight="60dp"
         android:orientation="horizontal"
-        android:padding="7dp">
+        android:padding="7dp"
+        android:visibility="gone">
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_weight="1"
             android:text="Receive Notification" />
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="" />
@@ -229,7 +229,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#30000000" />
+        android:background="#30000000"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -239,16 +240,17 @@
         android:gravity="center_vertical"
         android:minHeight="60dp"
         android:orientation="horizontal"
-        android:padding="7dp">
+        android:padding="7dp"
+        android:visibility="gone">
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_weight="1"
             android:text="Activation Time" />
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:id="@+id/tv_activation_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -260,7 +262,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#30000000" />
+        android:background="#30000000"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -270,16 +273,17 @@
         android:gravity="center_vertical"
         android:minHeight="60dp"
         android:orientation="horizontal"
-        android:padding="7dp">
+        android:padding="7dp"
+        android:visibility="gone">
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_weight="1"
             android:text="Expire Date" />
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:id="@+id/tv_expiration_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -291,7 +295,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#30000000" />
+        android:background="#30000000"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -303,7 +308,7 @@
         android:orientation="horizontal"
         android:padding="7dp">
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
@@ -313,10 +318,10 @@
 
         <ImageView
             android:layout_width="25dp"
-            android:adjustViewBounds="true"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:src="@drawable/ic_drop_right"
-            android:tint="#757575"/>
+            android:tint="#757575" />
 
     </LinearLayout>
 
@@ -335,14 +340,14 @@
         android:orientation="horizontal"
         android:padding="7dp">
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_weight="1"
             android:text="Status" />
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Static" />

@@ -18,10 +18,10 @@
         app:tabTextColor="#4DFFFFFF"
         app:tabIndicatorColor="#FFEC60"/>
 
-    <com.voxtrail.gpstracking.view.CustomViewPager
+    <com.voxgps.app.view.CustomViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.voxtrail.gpstracking.view.CustomViewPager>
+        android:layout_height="match_parent"></com.voxgps.app.view.CustomViewPager>
 
 
 </LinearLayout>

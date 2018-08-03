@@ -18,6 +18,7 @@
         sothree:umanoShadowHeight="4dp">
 
         <FrameLayout
+            android:id="@+id/frame_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -45,7 +46,7 @@
                             android:layout_marginLeft="7dp"
                             android:src="@drawable/ic_back_black" />
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:id="@+id/tv_vehicle_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -67,7 +68,7 @@
                             android:src="@drawable/ic_select_time"
                             android:visibility="gone" />
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:id="@+id/tv_edit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -111,7 +112,7 @@
                             android:layout_marginTop="5dp"
                             android:src="@drawable/ic_track_unsel" />
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:id="@+id/tv_track"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -137,7 +138,7 @@
                             android:layout_marginTop="5dp"
                             android:src="@drawable/ic_play_unsel" />
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:id="@+id/tv_playback"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -163,7 +164,7 @@
                             android:layout_marginTop="5dp"
                             android:src="@drawable/ic_info" />
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:id="@+id/tv_message"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -189,12 +190,12 @@
                             android:layout_marginTop="5dp"
                             android:src="@drawable/ic_setting_black" />
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:id="@+id/tv_setting"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
-                            android:text="Settings"
+                            android:text="Control"
                             android:textColor="#757575" />
 
                     </LinearLayout>
@@ -219,7 +220,7 @@
                     android:layout_height="wrap_content"
                     android:minHeight="50dp">
 
-                    <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                    <com.voxgps.app.view.ProximaNovaLightTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -259,7 +260,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:id="@+id/tv_latitude"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -267,7 +268,7 @@
                             android:textColor="#000000"
                             android:textSize="18sp" />
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
@@ -283,7 +284,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:id="@+id/tv_longitude"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -291,7 +292,7 @@
                             android:textColor="#000000"
                             android:textSize="18sp" />
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
@@ -315,7 +316,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:id="@+id/tv_speed"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -323,7 +324,7 @@
                             android:textColor="#000000"
                             android:textSize="18sp" />
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
@@ -339,7 +340,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:id="@+id/tv_mileage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -347,7 +348,7 @@
                             android:textColor="#000000"
                             android:textSize="18sp" />
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
@@ -371,7 +372,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:id="@+id/tv_battery"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -379,7 +380,7 @@
                             android:textColor="#000000"
                             android:textSize="18sp" />
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
@@ -395,7 +396,7 @@
                         android:gravity="center"
                         android:orientation="vertical">
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:id="@+id/tv_avg_mileage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -403,7 +404,7 @@
                             android:textColor="#000000"
                             android:textSize="18sp" />
 
-                        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                        <com.voxgps.app.view.ProximaNovaLightTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="7dp"
@@ -427,7 +428,7 @@
                     android:minHeight="40dp"
                     android:orientation="vertical">
 
-                    <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+                    <com.voxgps.app.view.ProximaNovaLightTextView
                         android:id="@+id/tv_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

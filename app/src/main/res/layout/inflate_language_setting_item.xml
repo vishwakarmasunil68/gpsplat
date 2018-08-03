@@ -19,7 +19,7 @@
         android:orientation="horizontal">
 
 
-        <com.voxtrail.gpstracking.view.ProximaNovaLightTextView
+        <com.voxgps.app.view.ProximaNovaLightTextView
             android:id="@+id/tv_language"
             android:layout_width="wrap_content"
             android:layout_weight="1"
