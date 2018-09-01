@@ -56,7 +56,6 @@
             android:layout_height="wrap_content"
             android:text="" />
 
-
     </LinearLayout>
 
     <View
@@ -86,13 +85,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="161565165165" />
-
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_drop_right"
-            android:tint="#757575" />
 
     </LinearLayout>
 
@@ -124,13 +116,6 @@
             android:layout_height="wrap_content"
             android:text="9876543210" />
 
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_drop_right"
-            android:tint="#757575" />
-
     </LinearLayout>
 
     <View
@@ -155,12 +140,11 @@
             android:layout_weight="1"
             android:text="Vehicle Plate Number" />
 
-        <ImageView
-            android:layout_width="25dp"
+        <com.voxgps.app.view.ProximaNovaLightTextView
+            android:id="@+id/tv_vehicle_plate_number"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@drawable/ic_drop_right"
-            android:tint="#757575" />
+            android:text="" />
 
     </LinearLayout>
 

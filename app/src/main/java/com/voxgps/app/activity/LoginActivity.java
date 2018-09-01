@@ -7,7 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.voxgps.app.R;
+import com.voxgps.app.pojo.UserDetail;
+import com.voxgps.app.util.Constants;
 import com.voxgps.app.util.Pref;
 import com.voxgps.app.util.StringUtils;
 import com.voxgps.app.util.ToastClass;
@@ -59,41 +62,27 @@ public class LoginActivity extends AppCompatActivity {
         ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
         nameValuePairs.add(new BasicNameValuePair("username", et_user_name.getText().toString()));
         nameValuePairs.add(new BasicNameValuePair("password", et_password.getText().toString()));
-//        nameValuePairs.add(new BasicNameValuePair("device_token", Pref.GetDeviceToken(getApplicationContext(),"")));
-        nameValuePairs.add(new BasicNameValuePair("grant_type", "password"));
+        nameValuePairs.add(new BasicNameValuePair("device_token", Pref.GetDeviceToken(getApplicationContext(),"")));
+        nameValuePairs.add(new BasicNameValuePair("device_type", "0"));
         new WebServiceBase(nameValuePairs,null, this, new WebServicesCallBack() {
             @Override
             public void onGetMsg(String apicall, String response) {
                 try{
                     JSONObject jsonObject=new JSONObject(response);
-                    String access_token=jsonObject.getString("access_token");
-                    String token_type=jsonObject.getString("token_type");
-                    String userName=jsonObject.getString("userName");
-                    String Role=jsonObject.getString("Role");
+                    if(jsonObject.optString("status").equals("1")){
+                        JSONObject resultObject=jsonObject.optJSONObject("result");
+                        Pref.SetStringPref(getApplicationContext(),StringUtils.USER_DETAILS,resultObject.toString());
+                        Pref.SetBooleanPref(getApplicationContext(),StringUtils.IS_LOGIN,true);
+                        Constants.userDetail=new Gson().fromJson(resultObject.toString(), UserDetail.class);
+                        startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                        finishAffinity();
 
-                    Pref.SetStringPref(getApplicationContext(), StringUtils.ACCESS_TOKEN,access_token);
-                    Pref.SetStringPref(getApplicationContext(), StringUtils.TOKEN_TYPE,token_type);
-                    Pref.SetStringPref(getApplicationContext(), StringUtils.USERNAME,userName);
-                    Pref.SetStringPref(getApplicationContext(), StringUtils.ROLE,Role);
-
-                    Pref.SetBooleanPref(getApplicationContext(),StringUtils.IS_LOGIN,true);
-
-                    UtilityFunction.setPreValuesChecked(getApplicationContext());
-
-                    startActivity(new Intent(LoginActivity.this,HomeActivity.class));
-
-                }catch (Exception e){
-                    try{
-                        JSONObject jsonObject=new JSONObject(response);
-                        String error=jsonObject.optString("error");
-                        String error_description=jsonObject.optString("error_description");
-
-                        ToastClass.showShortToast(getApplicationContext(),error_description);
-                    }catch (Exception e1){
-                        e1.printStackTrace();
                     }
+                    ToastClass.showShortToast(getApplicationContext(),jsonObject.optString("message"));
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
             }
-        }, "LOGIN_API", true).execute(WebServicesUrls.TOKEN);
+        }, "LOGIN_API", true).execute(WebServicesUrls.LOGIN);
     }
 }

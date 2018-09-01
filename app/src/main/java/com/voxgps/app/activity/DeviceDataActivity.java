@@ -26,6 +26,8 @@ import com.voxgps.app.fragment.NewPlayBackFragment;
 import com.voxgps.app.fragment.setting.DeviceSettingFragment;
 import com.voxgps.app.fragmentcontroller.ActivityManager;
 import com.voxgps.app.pojo.VehiclePOJO;
+import com.voxgps.app.pojo.device.DeviceDetailPOJO;
+import com.voxgps.app.pojo.device.DevicePOJO;
 import com.voxgps.app.util.TagUtils;
 
 import org.json.JSONArray;
@@ -93,7 +95,7 @@ public class DeviceDataActivity extends ActivityManager {
     @BindView(R.id.tv_address)
     TextView tv_address;
 
-    public VehiclePOJO vehiclePOJO;
+    public DevicePOJO devicePOJO;
 
     List<TextView> textViewList = new ArrayList<>();
     List<ImageView> imageViewList = new ArrayList<>();
@@ -104,7 +106,7 @@ public class DeviceDataActivity extends ActivityManager {
         setContentView(R.layout.activity_device_data);
         ButterKnife.bind(this);
 
-        vehiclePOJO = (VehiclePOJO) getIntent().getSerializableExtra("vehiclePOJO");
+        devicePOJO = (DevicePOJO) getIntent().getSerializableExtra("devicePOJO");
 
         textViewList.add(tv_track);
         textViewList.add(tv_playback);
@@ -263,7 +265,7 @@ public class DeviceDataActivity extends ActivityManager {
         iv_setting.setImageResource(R.drawable.ic_setting_black);
     }
 
-    public void slidingLogic(VehiclePOJO vehiclePOJO, String address) {
+    public void slidingLogic(DeviceDetailPOJO deviceDetailPOJO, String address) {
         if (sliding_layout != null &&
                 (sliding_layout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || sliding_layout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
             sliding_layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
@@ -272,12 +274,12 @@ public class DeviceDataActivity extends ActivityManager {
         }
 
         try {
-            tv_latitude.setText(String.valueOf(vehiclePOJO.getLatitude()));
-            tv_longitude.setText(String.valueOf(vehiclePOJO.getLongitude()));
-            tv_speed.setText(String.valueOf(vehiclePOJO.getSpeed() + " km/h"));
-            tv_mileage.setText(String.valueOf(vehiclePOJO.getMileage() + " km/l"));
-            tv_battery.setText(String.valueOf(vehiclePOJO.getBatteryLevel() + " %"));
-            tv_avg_mileage.setText(String.valueOf(vehiclePOJO.getTodaysMileage() + " km/l"));
+            tv_latitude.setText(String.valueOf(deviceDetailPOJO.getLat()));
+            tv_longitude.setText(String.valueOf(deviceDetailPOJO.getLng()));
+            tv_speed.setText(String.valueOf(deviceDetailPOJO.getSpeed() + " km/h"));
+            tv_mileage.setText(String.valueOf(deviceDetailPOJO.getModel() + " km/l"));
+            tv_battery.setText(String.valueOf(deviceDetailPOJO.getPlateNumber() + " %"));
+            tv_avg_mileage.setText(String.valueOf(deviceDetailPOJO.getAltitude() + " km/l"));
             tv_address.setText(address);
         } catch (Exception e) {
             e.printStackTrace();
@@ -285,10 +287,10 @@ public class DeviceDataActivity extends ActivityManager {
     }
 
 
-    public void getCompleteAddress(final VehiclePOJO vehiclePOJO) {
+    public void getCompleteAddress(final DeviceDetailPOJO deviceDetailPOJO) {
         try {
             showProgressBar();
-            String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + String.valueOf(vehiclePOJO.getLatitude()) + "," + String.valueOf(vehiclePOJO.getLongitude()) + "&sensor=true";
+            String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + String.valueOf(deviceDetailPOJO.getLat()) + "," + String.valueOf(deviceDetailPOJO.getLng()) + "&sensor=true";
 
             StringRequest req = new StringRequest(url,
                     new Response.Listener<String>() {
@@ -301,7 +303,7 @@ public class DeviceDataActivity extends ActivityManager {
                                 JSONArray jsonArray = jsonObject.optJSONArray("results");
                                 JSONObject jsonObject1 = jsonArray.optJSONObject(0);
                                 String formatted_address = jsonObject1.optString("formatted_address");
-                                slidingLogic(vehiclePOJO,formatted_address);
+                                slidingLogic(deviceDetailPOJO,formatted_address);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

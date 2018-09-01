@@ -15,16 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.ServerError;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,25 +26,26 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.voxgps.app.R;
-import com.voxgps.app.pojo.VehiclePOJO;
 import com.voxgps.app.util.Constants;
-import com.voxgps.app.util.Pref;
-import com.voxgps.app.util.StringUtils;
 import com.voxgps.app.util.TagUtils;
 import com.voxgps.app.util.ToastClass;
 import com.voxgps.app.util.UtilityFunction;
+import com.voxgps.app.webservice.WebServiceBase;
+import com.voxgps.app.webservice.WebServicesCallBack;
 import com.voxgps.app.webservice.WebServicesUrls;
 
-import org.json.JSONArray;
+import net.igenius.customcheckbox.CustomCheckBox;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import top.defaults.colorpicker.ColorPickerPopup;
 
 public class PolyGeoFenceActivity extends AppCompatActivity implements OnMapReadyCallback {
     GoogleMap googleMap;
@@ -64,7 +55,6 @@ public class PolyGeoFenceActivity extends AppCompatActivity implements OnMapRead
     Button btn_reset;
     @BindView(R.id.btn_set)
     Button btn_set;
-    VehiclePOJO vehiclePOJO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +62,6 @@ public class PolyGeoFenceActivity extends AppCompatActivity implements OnMapRead
         setContentView(R.layout.activity_poly_geo_fence);
         ButterKnife.bind(this);
 
-        vehiclePOJO = (VehiclePOJO) getIntent().getSerializableExtra("vehiclePOJO");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -109,7 +98,9 @@ public class PolyGeoFenceActivity extends AppCompatActivity implements OnMapRead
 
     }
 
-    public void addAddressDialog(){
+    String hex = "FF0000";
+
+    public void addAddressDialog() {
         final Dialog dialog1 = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog);
         dialog1.setCancelable(true);
         dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -119,105 +110,172 @@ public class PolyGeoFenceActivity extends AppCompatActivity implements OnMapRead
         Window window = dialog1.getWindow();
         window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        final EditText et_address=dialog1.findViewById(R.id.et_address);
-        Button btn_add=dialog1.findViewById(R.id.btn_add);
+        final EditText et_name = dialog1.findViewById(R.id.et_name);
+        final CustomCheckBox check_visible = dialog1.findViewById(R.id.check_visible);
+        final CustomCheckBox check_name_visible = dialog1.findViewById(R.id.check_name_visible);
+        final View view_color = dialog1.findViewById(R.id.view_color);
+        Button btn_add = dialog1.findViewById(R.id.btn_add);
+
+        view_color.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                new ColorPickerPopup.Builder(PolyGeoFenceActivity.this)
+                        .initialColor(Color.RED) // Set initial color
+                        .enableAlpha(true) // Enable alpha slider or not
+                        .okTitle("Choose")
+                        .cancelTitle("Cancel")
+                        .showIndicator(true)
+                        .showValue(true)
+                        .build()
+                        .show(view, new ColorPickerPopup.ColorPickerObserver() {
+                            @Override
+                            public void onColorPicked(int color) {
+                                Log.d(TagUtils.getTag(), "color:-" + color);
+                                hex = String.valueOf(Integer.toHexString(color));
+                                view.setBackgroundColor(color);
+                            }
+
+                            @Override
+                            public void onColor(int color, boolean fromUser) {
+                                Log.d(TagUtils.getTag(), "color new:-" + color);
+                            }
+                        });
+            }
+        });
 
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(et_address.getText().toString().length()>0){
-                    createFence(et_address.getText().toString());
+                if (et_name.getText().toString().length() > 0) {
+                    createFence(et_name.getText().toString(),check_visible.isChecked(),check_name_visible.isChecked());
                     dialog1.dismiss();
-                }else{
-                    ToastClass.showShortToast(getApplicationContext(),"Please Enter Address");
+                } else {
+                    ToastClass.showShortToast(getApplicationContext(), "Please Enter Address");
                 }
             }
         });
 
     }
 
-    public void createFence(String address) {
-        try {
-            final JSONObject jsonObject=new JSONObject();
+    public void createFence(String name,boolean zone_visible,boolean name_visible) {
 
-            final JSONArray jsonArray = new JSONArray();
-
-            for (LatLng latLng : latLngList) {
-                JSONObject latlngJSON = new JSONObject();
-                latlngJSON.put("Latitude", latLng.latitude);
-                latlngJSON.put("Longitude", latLng.longitude);
-
-                jsonArray.put(latlngJSON);
+        ArrayList<NameValuePair> nameValuePairs = new ArrayList<>();
+        nameValuePairs.add(new BasicNameValuePair("user_id", Constants.userDetail.getId()));
+        nameValuePairs.add(new BasicNameValuePair("group_id", "0"));
+        nameValuePairs.add(new BasicNameValuePair("zone_name", name));
+        nameValuePairs.add(new BasicNameValuePair("zone_color", "#"+hex));
+        nameValuePairs.add(new BasicNameValuePair("zone_visible", String.valueOf(zone_visible)));
+        nameValuePairs.add(new BasicNameValuePair("zone_name_visible", String.valueOf(name_visible)));
+        nameValuePairs.add(new BasicNameValuePair("zone_area", "0"));
+        String latlngs="";
+        for(int i=0;i<latLngList.size();i++){
+            if((i+1)<latLngList.size()){
+                latlngs+=latLngList.get(i).latitude+","+latLngList.get(i).longitude;
+            }else{
+                latlngs+=latLngList.get(i).latitude+","+latLngList.get(i).longitude+",";
             }
-            jsonObject.put("VehicleID", vehiclePOJO.getVehicleID());
-            jsonObject.put("listFencePloygonData", jsonArray);
-            jsonObject.put("Address", address);
-
-
-            Log.d(TagUtils.getTag(), "json Object:-" + jsonObject.toString());
-
-            RequestQueue queue = Volley.newRequestQueue(this);
-
-            StringRequest getRequest = new StringRequest(Request.Method.POST, WebServicesUrls.CreateFencePolygon,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.d(TagUtils.getTag(), "response:-" + response.toString());
-                            if(response.equals("true")){
-                                ToastClass.showShortToast(getApplicationContext(),"Fence Created");
-                                onBackPressed();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d(TagUtils.getTag(), "error:-" + error.toString());
-//                            error.printStackTrace();
-                            NetworkResponse response = error.networkResponse;
-                            if (error instanceof ServerError && response != null) {
-                                try {
-                                    String res = new String(response.data,
-                                            HttpHeaderParser.parseCharset(response.headers));
-                                    // Now you can use any deserializer to make sense of data
-                                    JSONObject obj = new JSONObject(res);
-                                    Log.d(TagUtils.getTag(), "obj:-" + obj.toString());
-
-                                    JSONArray jsonArray = obj.optJSONArray("Errors");
-                                    ToastClass.showShortToast(getApplicationContext(), jsonArray.optString(0));
-
-                                } catch (Exception e1) {
-                                    // Couldn't properly decode data to string
-                                    e1.printStackTrace();
-                                }
-                            }
-                        }
-                    }
-            ) {
-                @Override
-                public byte[] getBody() throws AuthFailureError {
-                    return jsonObject.toString().getBytes();
-                }
-
-                @Override
-                public String getBodyContentType() {
-                    return "application/json";
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", Pref.GetStringPref(getApplicationContext(), StringUtils.TOKEN_TYPE, "") + " " + Pref.GetStringPref(getApplicationContext(), StringUtils.ACCESS_TOKEN, ""));
-                    headers.put("Content-Type", "application/json");
-//                    UtilityFunction.printAllValues(headers);
-                    return headers;
-                }
-            };
-            queue.add(getRequest);
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
+        Log.d(TagUtils.getTag(),"lat lngs size:-"+latLngList.size());
+        Log.d(TagUtils.getTag(),"lat lngs:-"+latLngList.toString());
+        nameValuePairs.add(new BasicNameValuePair("zone_vertices", latlngs));
+
+        new WebServiceBase(nameValuePairs, null, this, new WebServicesCallBack() {
+            @Override
+            public void onGetMsg(String apicall, String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if (jsonObject.optString("status").equalsIgnoreCase("1")) {
+
+                    }
+                    ToastClass.showShortToast(getApplicationContext(), jsonObject.optString("message"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, "CREATE_POLYFENCE", false).execute(WebServicesUrls.SAVE_ZONE);
+
+//        try {
+//            final JSONObject jsonObject=new JSONObject();
+//
+//            final JSONArray jsonArray = new JSONArray();
+//
+//            for (LatLng latLng : latLngList) {
+//                JSONObject latlngJSON = new JSONObject();
+//                latlngJSON.put("Latitude", latLng.latitude);
+//                latlngJSON.put("Longitude", latLng.longitude);
+//
+//                jsonArray.put(latlngJSON);
+//            }
+////            jsonObject.put("VehicleID", vehiclePOJO.getVehicleID());
+//            jsonObject.put("listFencePloygonData", jsonArray);
+//            jsonObject.put("Address", address);
+//
+//
+//            Log.d(TagUtils.getTag(), "json Object:-" + jsonObject.toString());
+//
+//            RequestQueue queue = Volley.newRequestQueue(this);
+//
+//            StringRequest getRequest = new StringRequest(Request.Method.POST, WebServicesUrls.CreateFencePolygon,
+//                    new Response.Listener<String>() {
+//                        @Override
+//                        public void onResponse(String response) {
+//                            Log.d(TagUtils.getTag(), "response:-" + response.toString());
+//                            if(response.equals("true")){
+//                                ToastClass.showShortToast(getApplicationContext(),"Fence Created");
+//                                onBackPressed();
+//                            }
+//                        }
+//                    },
+//                    new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            Log.d(TagUtils.getTag(), "error:-" + error.toString());
+////                            error.printStackTrace();
+//                            NetworkResponse response = error.networkResponse;
+//                            if (error instanceof ServerError && response != null) {
+//                                try {
+//                                    String res = new String(response.data,
+//                                            HttpHeaderParser.parseCharset(response.headers));
+//                                    // Now you can use any deserializer to make sense of data
+//                                    JSONObject obj = new JSONObject(res);
+//                                    Log.d(TagUtils.getTag(), "obj:-" + obj.toString());
+//
+//                                    JSONArray jsonArray = obj.optJSONArray("Errors");
+//                                    ToastClass.showShortToast(getApplicationContext(), jsonArray.optString(0));
+//
+//                                } catch (Exception e1) {
+//                                    // Couldn't properly decode data to string
+//                                    e1.printStackTrace();
+//                                }
+//                            }
+//                        }
+//                    }
+//            ) {
+//                @Override
+//                public byte[] getBody() throws AuthFailureError {
+//                    return jsonObject.toString().getBytes();
+//                }
+//
+//                @Override
+//                public String getBodyContentType() {
+//                    return "application/json";
+//                }
+//
+//                @Override
+//                public Map<String, String> getHeaders() throws AuthFailureError {
+//                    Map<String, String> headers = new HashMap<>();
+//                    headers.put("Authorization", Pref.GetStringPref(getApplicationContext(), StringUtils.TOKEN_TYPE, "") + " " + Pref.GetStringPref(getApplicationContext(), StringUtils.ACCESS_TOKEN, ""));
+//                    headers.put("Content-Type", "application/json");
+////                    UtilityFunction.printAllValues(headers);
+//                    return headers;
+//                }
+//            };
+//            queue.add(getRequest);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -234,24 +292,10 @@ public class PolyGeoFenceActivity extends AppCompatActivity implements OnMapRead
         });
 
 
-        if(vehiclePOJO!=null){
-            showLocation(vehiclePOJO.getLatitude(),vehiclePOJO.getLongitude());
-        }
+//        if(vehiclePOJO!=null){
+//            showLocation(vehiclePOJO.getLatitude(),vehiclePOJO.getLongitude());
+//        }
 
-
-//        PolygonOptions rectOptions = new PolygonOptions()
-//                .add(new LatLng(28.4982647,77.0626853))
-//                .add(new LatLng(28.4984907,77.0708713))  // North of the previous point, but at the same longitude
-//                .add(new LatLng(28.4931067,77.0717833))  // Same longitude, and 16km to the south
-//                .add(new LatLng(28.4928337,77.0628463)); // Closes the polyline.
-//
-//
-//        rectOptions.strokeColor(Color.RED);
-//        rectOptions.fillColor(Color.BLUE);
-//
-//// Get back the mutable Polyline
-//        googleMap.addPolygon(rectOptions);
-//        checkLocation();
     }
 
     public void setPolyMarker() {

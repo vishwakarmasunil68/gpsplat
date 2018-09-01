@@ -68,22 +68,16 @@ public class DeviceSettingFragment extends FragmentController {
                 activityManager.startFragment(R.id.frame_home, new VehicleGeoFenceFragment());
             }
         });
-
         getRelayStatus();
         getSpeedStatus();
-
     }
 
     public void setRelayStatus(boolean status) {
         if (getActivity() instanceof DeviceDataActivity) {
 
-
             DeviceDataActivity deviceDataActivity = (DeviceDataActivity) getActivity();
-
-            String url = WebServicesUrls.setRelayStatus(String.valueOf(deviceDataActivity.vehiclePOJO.getVehicleID()), status);
-
+            String url = WebServicesUrls.setRelayStatus(String.valueOf(deviceDataActivity.devicePOJO.getDeviceDetailPOJO().getImei()), status);
             Log.d(TagUtils.getTag(), "url:-" + url);
-
 
             activityManager.showProgressBar();
             RequestQueue queue = Volley.newRequestQueue(getActivity());
@@ -123,7 +117,7 @@ public class DeviceSettingFragment extends FragmentController {
 
             DeviceDataActivity deviceDataActivity = (DeviceDataActivity) getActivity();
 
-            String url = WebServicesUrls.setSpeedStatus(String.valueOf(deviceDataActivity.vehiclePOJO.getVehicleID()), status);
+            String url = WebServicesUrls.setSpeedStatus(String.valueOf(deviceDataActivity.devicePOJO.getDeviceDetailPOJO().getImei()), status);
 
             Log.d(TagUtils.getTag(), "url:-" + url);
 
@@ -168,7 +162,7 @@ public class DeviceSettingFragment extends FragmentController {
 //            activityManager.showProgressBar();
             RequestQueue queue = Volley.newRequestQueue(getActivity());
 
-            StringRequest getRequest = new StringRequest(Request.Method.GET, WebServicesUrls.GET_RELAY_STATUS + deviceDataActivity.vehiclePOJO.getVehicleID(),
+            StringRequest getRequest = new StringRequest(Request.Method.GET, WebServicesUrls.GET_RELAY_STATUS + deviceDataActivity.devicePOJO.getDeviceDetailPOJO().getImei(),
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -222,7 +216,7 @@ public class DeviceSettingFragment extends FragmentController {
 //            activityManager.showProgressBar();
             RequestQueue queue = Volley.newRequestQueue(getActivity());
 
-            StringRequest getRequest = new StringRequest(Request.Method.GET, WebServicesUrls.GET_SPEED_STATUS + deviceDataActivity.vehiclePOJO.getVehicleID(),
+            StringRequest getRequest = new StringRequest(Request.Method.GET, WebServicesUrls.GET_SPEED_STATUS + deviceDataActivity.devicePOJO.getDeviceDetailPOJO().getImei(),
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

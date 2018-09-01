@@ -32,6 +32,8 @@ import com.voxgps.app.fragment.MeFragment;
 import com.voxgps.app.fragment.setting.NotificationSettingFragment;
 import com.voxgps.app.fragmentcontroller.ActivityManager;
 import com.voxgps.app.pojo.VehiclePOJO;
+import com.voxgps.app.pojo.device.DeviceDetailPOJO;
+import com.voxgps.app.util.Constants;
 import com.voxgps.app.util.Pref;
 import com.voxgps.app.util.StringUtils;
 import com.voxgps.app.util.TagUtils;
@@ -201,7 +203,7 @@ public class HomeActivity extends ActivityManager {
                 homeMapFragment.getVehicleList(false);
             }
         });
-        updateDeviceToken();
+//        updateDeviceToken();
 
         showGraph();
 
@@ -218,10 +220,11 @@ public class HomeActivity extends ActivityManager {
 
             }
         });
-        tv_user_name.setText(Pref.GetStringPref(getApplicationContext(), StringUtils.USERNAME, ""));
+//        tv_user_name.setText(Pref.GetStringPref(getApplicationContext(), StringUtils.USERNAME, ""));
+        tv_user_name.setText(Constants.userDetail.getUsername());
     }
 
-    public void slidingLogic(VehiclePOJO vehiclePOJO, String address) {
+    public void slidingLogic(DeviceDetailPOJO deviceDetailPOJO, String address) {
         if (sliding_layout != null &&
                 (sliding_layout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED || sliding_layout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
             sliding_layout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
@@ -230,13 +233,13 @@ public class HomeActivity extends ActivityManager {
         }
 
         try {
-            tv_vehicle_name.setText(String.valueOf(vehiclePOJO.getVehicleNumber()) + " Data");
-            tv_latitude.setText(String.valueOf(vehiclePOJO.getLatitude()));
-            tv_longitude.setText(String.valueOf(vehiclePOJO.getLongitude()));
-            tv_speed.setText(String.valueOf(vehiclePOJO.getSpeed() + " km/h"));
-            tv_mileage.setText(String.valueOf(vehiclePOJO.getMileage() + " km/l"));
-            tv_battery.setText(String.valueOf(vehiclePOJO.getBatteryLevel() + " %"));
-            tv_avg_mileage.setText(String.valueOf(vehiclePOJO.getTodaysMileage() + " km/l"));
+            tv_vehicle_name.setText(String.valueOf(deviceDetailPOJO.getPlateNumber()) + " Data");
+            tv_latitude.setText(String.valueOf(deviceDetailPOJO.getLng()));
+            tv_longitude.setText(String.valueOf(deviceDetailPOJO.getLng()));
+            tv_speed.setText(String.valueOf(deviceDetailPOJO.getSpeed() + " km/h"));
+            tv_mileage.setText(String.valueOf(deviceDetailPOJO.getSpeed() + " km/l"));
+            tv_battery.setText(String.valueOf(deviceDetailPOJO.getOdometer() + " %"));
+            tv_avg_mileage.setText(String.valueOf(deviceDetailPOJO.getSpeed() + " km/l"));
             tv_address.setText(address);
         } catch (Exception e) {
             e.printStackTrace();
@@ -252,58 +255,6 @@ public class HomeActivity extends ActivityManager {
                 new DataPoint(4, 2)
         });
         graph.addSeries(series);
-    }
-
-
-    public void sendRawData() {
-        try {
-            final JSONObject jsonObject = new JSONObject();
-            jsonObject.put("X", 123);
-            jsonObject.put("Y", 123);
-            jsonObject.put("FenceAddress", "acadscd");
-            jsonObject.put("UserID", 123);
-
-            Log.d(TagUtils.getTag(), "json Object:-" + jsonObject.toString());
-
-            RequestQueue queue = Volley.newRequestQueue(this);
-
-            StringRequest getRequest = new StringRequest(Request.Method.POST, WebServicesUrls.RADIUS,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Log.d(TagUtils.getTag(), "response:-" + response.toString());
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d(TagUtils.getTag(), "error:-" + error.toString());
-                            error.printStackTrace();
-                        }
-                    }
-            ) {
-                @Override
-                public byte[] getBody() throws AuthFailureError {
-                    return jsonObject.toString().getBytes();
-                }
-
-                @Override
-                public String getBodyContentType() {
-                    return "application/json; charset=utf-8";
-                }
-
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", "bearer -8J_t3yNrZBuIP8NKCLH-VHN8qdSUQxTEyDuYpdWGlJxCTSHLCY63825kOQjeLMMjuFRVV0u9eeCOFZRlGqtdByrCLkVihkeQamxX8SqIIMXBIWgrC4bSv9275ZcsczftIAT8PDnnldTGETdaW1r6W5RQl_bt-peQ2kDsenlbkYXUj24KF6TTCwLTY7cAdyjp_1LA32HDQjMOqfoEMxY6aDkmQ0wktZjntGaNovCr1x7a_kEgLNTJqMnzx1k00PrecM5wSp9Iv3PI6wwAc04lOCS27k15HbeT_MEtFlowC9dMujmSygfwFaOg_B5Zxt0KdprhD6547weIHB8rMWwchTtASFKt1CfG4lEZXPNn2Hfm3dSpjUaMJp4-4zPFMa0Yq_8V-uDk-J-obHVZagM0SwAEiFIVufuowqWdZGThqcStXPe0OFSw9djwhYgR2rf3wNGuexCRcXwatWJHbfrNWXg-a5P7sXD4hyr50c0vF1fAiP9bS9v1ny_EwSSsLZmBdtiaYaFH1kpeohYxn11zQ");
-                    UtilityFunction.printAllValues(headers);
-                    return headers;
-                }
-            };
-            queue.add(getRequest);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public List<VehiclePOJO> vehiclePOJOS = new ArrayList<>();
@@ -449,10 +400,10 @@ public class HomeActivity extends ActivityManager {
         iv_me.setImageResource(R.drawable.ic_user_unsel);
     }
 
-    public void getCompleteAddress(final VehiclePOJO vehiclePOJO) {
+    public void getCompleteAddress(final DeviceDetailPOJO deviceDetailPOJO) {
         try {
             showProgressBar();
-            String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + String.valueOf(vehiclePOJO.getLatitude()) + "," + String.valueOf(vehiclePOJO.getLongitude()) + "&sensor=true";
+            String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng=" + String.valueOf(deviceDetailPOJO.getLat()) + "," + String.valueOf(deviceDetailPOJO.getLng()) + "&sensor=true";
 
             StringRequest req = new StringRequest(url,
                     new Response.Listener<String>() {
@@ -465,7 +416,7 @@ public class HomeActivity extends ActivityManager {
                                 JSONArray jsonArray = jsonObject.optJSONArray("results");
                                 JSONObject jsonObject1 = jsonArray.optJSONObject(0);
                                 String formatted_address = jsonObject1.optString("formatted_address");
-                                slidingLogic(vehiclePOJO, formatted_address);
+                                slidingLogic(deviceDetailPOJO, formatted_address);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

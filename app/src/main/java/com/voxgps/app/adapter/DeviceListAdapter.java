@@ -11,9 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.voxgps.app.R;
 import com.voxgps.app.activity.DeviceDataActivity;
 import com.voxgps.app.pojo.VehiclePOJO;
+import com.voxgps.app.pojo.device.DevicePOJO;
+import com.voxgps.app.webservice.WebServicesUrls;
 
 import java.util.List;
 
@@ -25,11 +28,11 @@ import butterknife.ButterKnife;
  */
 
 public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.ViewHolder> {
-    private List<VehiclePOJO> items;
+    private List<DevicePOJO> items;
     Activity activity;
     Fragment fragment;
 
-    public DeviceListAdapter(Activity activity, Fragment fragment, List<VehiclePOJO> items) {
+    public DeviceListAdapter(Activity activity, Fragment fragment, List<DevicePOJO> items) {
         this.items = items;
         this.activity = activity;
         this.fragment = fragment;
@@ -48,27 +51,17 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, DeviceDataActivity.class);
-                intent.putExtra("vehiclePOJO", items.get(position));
+                intent.putExtra("devicePOJO", items.get(position));
                 activity.startActivity(intent);
             }
         });
-        holder.tv_vehicle_name.setText(items.get(position).getVehicleNumber());
+        holder.tv_vehicle_name.setText(items.get(position).getDeviceDetailPOJO().getName());
 
-        switch (items.get(position).getVehicleType().toLowerCase()) {
-            case "car":
-                holder.iv_vehicle.setImageResource(R.drawable.ic_car);
-                break;
-            case "bike":
-                holder.iv_vehicle.setImageResource(R.drawable.ic_bike);
-                break;
-            case "truck":
-                holder.iv_vehicle.setImageResource(R.drawable.ic_truck);
-                break;
-            default:
-                break;
-        }
+//        Glide.with(activity.getApplicationContext())
+//                .load(WebServicesUrls.IMAGE_BASE_URL+items.get(position).getDeviceDetailPOJO().getIcon())
+//                .into(holder.iv_vehicle);
 
-        holder.tv_type.setText(items.get(position).getVehicleType());
+        holder.tv_type.setText("Moving ("+items.get(position).getDeviceDetailPOJO().getSpeed()+"km/h)");
 
         holder.itemView.setTag(items.get(position));
     }

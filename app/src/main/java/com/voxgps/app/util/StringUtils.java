@@ -10,6 +10,8 @@ public class StringUtils {
 
     public static final String IS_LOGIN = "is_login";
 
+    public static final String USER_DETAILS="USER_DETAILS";
+
     public static final String CURRENT_LATITUDE = "current_latitude";
     public static final String CURRENT_LONGITUDE = "current_longitude";
 

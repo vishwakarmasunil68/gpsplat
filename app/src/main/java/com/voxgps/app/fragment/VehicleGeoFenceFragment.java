@@ -79,12 +79,10 @@ public class VehicleGeoFenceFragment extends FragmentController {
         ic_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (getActivity() instanceof DeviceDataActivity) {
-                    DeviceDataActivity deviceDataActivity = (DeviceDataActivity) getActivity();
+//                if (getActivity() instanceof DeviceDataActivity) {
                     Intent intent = new Intent(getActivity(), PolyGeoFenceActivity.class);
-                    intent.putExtra("vehiclePOJO", deviceDataActivity.vehiclePOJO);
                     startActivity(intent);
-                }
+//                }
             }
         });
 
@@ -97,7 +95,7 @@ public class VehicleGeoFenceFragment extends FragmentController {
             activityManager.showProgressBar();
             RequestQueue queue = Volley.newRequestQueue(getActivity());
 
-            StringRequest getRequest = new StringRequest(Request.Method.GET, WebServicesUrls.VEHICLE_FENCES + deviceDataActivity.vehiclePOJO.getVehicleID(),
+            StringRequest getRequest = new StringRequest(Request.Method.GET, WebServicesUrls.VEHICLE_FENCES + deviceDataActivity.devicePOJO.getDeviceDetailPOJO().getImei(),
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

@@ -2,27 +2,97 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center"
-    android:gravity="center"
     android:layout_margin="30dp"
-    android:padding="7dp"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="7dp">
 
     <com.voxgps.app.view.ProximaNovaLightTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter Address"></com.voxgps.app.view.ProximaNovaLightTextView>
+        android:text="Enter Name"></com.voxgps.app.view.ProximaNovaLightTextView>
 
     <EditText
-        android:id="@+id/et_address"
+        android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp" />
+        android:layout_marginTop="5dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="7dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.voxgps.app.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Colour"></com.voxgps.app.view.ProximaNovaLightTextView>
+
+        <View
+            android:id="@+id/view_color"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:background="#FF0000" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="7dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.voxgps.app.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Zone Visible"/>
+
+        <net.igenius.customcheckbox.CustomCheckBox
+            android:id="@+id/check_visible"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            app:color_checked="@color/colorPrimary"
+            app:color_unchecked="@color/md_white_1000" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="7dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.voxgps.app.view.ProximaNovaLightTextView
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Name Visible"/>
+
+        <net.igenius.customcheckbox.CustomCheckBox
+            android:id="@+id/check_name_visible"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            app:color_checked="@color/colorPrimary"
+            app:color_unchecked="@color/md_white_1000" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="submit"/>
+        android:layout_marginTop="5dp"
+        android:text="SAVE" />
 
 </LinearLayout>

@@ -63,14 +63,12 @@ public class DeviceEditFragment extends FragmentController {
 
         if (getActivity() instanceof DeviceDataActivity) {
             DeviceDataActivity deviceDataActivity = (DeviceDataActivity) getActivity();
-            et_name.setText(deviceDataActivity.vehiclePOJO.getVehicleNumber());
-            et_imer.setText("1654845125");
-            ;
-            et_sim_card.setText("9876543210");
-            ;
-            et_vehicle_number.setText(deviceDataActivity.vehiclePOJO.getVehicleNumber());
-            if (deviceDataActivity.vehiclePOJO.getVehicleModel() != null) {
-                et_model.setText(deviceDataActivity.vehiclePOJO.getVehicleModel().toString());
+            et_name.setText(deviceDataActivity.devicePOJO.getDeviceDetailPOJO().getName());
+            et_imer.setText(deviceDataActivity.devicePOJO.getDeviceDetailPOJO().getImei());
+            et_sim_card.setText(deviceDataActivity.devicePOJO.getDeviceDetailPOJO().getSimNumber());
+            et_vehicle_number.setText(deviceDataActivity.devicePOJO.getDeviceDetailPOJO().getPlateNumber());
+            if (deviceDataActivity.devicePOJO.getDeviceDetailPOJO().getModel() != null) {
+                et_model.setText(deviceDataActivity.devicePOJO.getDeviceDetailPOJO().getModel().toString());
             }
         }
         iv_back.setOnClickListener(new View.OnClickListener() {

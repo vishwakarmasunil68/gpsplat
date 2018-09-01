@@ -1,5 +1,7 @@
 package com.voxgps.app.util;
 
+import com.voxgps.app.pojo.UserDetail;
+
 public class Constants {
 
     // Access permission
@@ -8,5 +10,7 @@ public class Constants {
     public static final int ACCESS_STORAGE = 2003;
     public static final int ACCESS_LOCATION = 2004;
     public static final int READ_SMS = 2005;
+
+    public static UserDetail userDetail;
 
 }
